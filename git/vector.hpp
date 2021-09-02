@@ -6,7 +6,7 @@
 /*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 21:03:47 by eyohn             #+#    #+#             */
-/*   Updated: 2021/08/27 21:44:51 by eyohn            ###   ########.fr       */
+/*   Updated: 2021/08/31 13:37:56 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,11 @@
 #include <iostream>
 
 namespace ft {
+	template <typename T>
 	class vector
 	{
 	public:
-		vector();
+		vector(T; );
 		~vector();
 
 		vector& operator=(const vector &);
