@@ -6,7 +6,7 @@
 /*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 21:03:42 by eyohn             #+#    #+#             */
-/*   Updated: 2021/09/02 14:12:27 by eyohn            ###   ########.fr       */
+/*   Updated: 2021/09/03 14:54:05 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,53 +19,84 @@
 #include <iostream>
 
 namespace ft {
+	template <class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<std::pair<const Key, T> >>
 	class map
 	{
 	public:
-		map();
+		explicit map( const Compare& comp = Compare(), const Allocator& alloc = Allocator() );
+		template< class InputIterator >
+		map( InputIterator first, InputIterator last, const Compare& comp = Compare(), const Allocator& alloc = Allocator() );
+		map( const map& other );
 		~map();
 
-		map& operator= (const map &);
+		map& operator=( const map& other );
 
 		// Iterators:
-		// begin
-		// end
-		// rbegin
-		// rend
-		// cbegin
-		// cend
-		// crbegin
-		// crend
+		iterator				begin();
+		const_iterator			begin() const;
+		iterator				end();
+		const_iterator			end() const;
+		reverse_iterator		rbegin();
+		const_reverse_iterator	rbegin() const;
+		reverse_iterator		rend();
+		const_reverse_iterator	rend() const;
 
 		// Capacity:
-		// empty
-		// size
-		// max_size
+		bool					empty() const;
+		size_type				size() const;
+		size_type				max_size() const;
 
 		// Element access:
-		// operator[]
-		// at
+		T&						operator[]( const Key& key );
+		T&						at( const Key& key );
+		const T&				at( const Key& key ) const;
 
 		// Modifiers:
-		// insert
-		// erase
-		// swap
-		// clear
-		// emplace
-		// emplace_hint
+		std::pair<iterator,bool>	insert( const value_type& value );
+		iterator					insert( iterator hint, const value_type& value );
+		template< class InputIt >
+		void						insert( InputIt first, InputIt last );
+		void						erase( iterator position );
+		void						erase( iterator first, iterator last );
+		size_type					erase( const key_type& key );
+		void						swap( map& other );
+		void						clear();
 
 		// Observers:
-		// key_comp
-		// value_comp
+		key_compare					key_comp() const;
+		std::map::value_compare		value_comp() const;
 
 		// Operations:
-		// find
-		// count
-		// lower_bound
-		// upper_bound
-		// equal_range
+		iterator					find( const Key& key );
+		const_iterator				find( const Key& key ) const;
+		size_type					count( const Key& key ) const;
+		iterator					lower_bound( const Key& key );
+		const_iterator				lower_bound( const Key& key ) const;
+		iterator					upper_bound( const Key& key );
+		const_iterator				upper_bound( const Key& key ) const;
+		std::pair<iterator,iterator>				equal_range( const Key& key );
+		std::pair<const_iterator,const_iterator>	equal_range( const Key& key ) const;
+	
 
 		// Allocator:
-		// get_allocator
+		allocator_type				get_allocator() const;
 	};
+
+	template<  >
+	bool operator==( map<>& lhs, map<>& rhs );
+
+	template<  >
+	bool operator!=( map<>& lhs, map<>& rhs );
+	
+	template<  >
+	bool operator<( map<>& lhs, map<>& rhs );
+
+	template<  >
+	bool operator<=( map<>& lhs, map<>& rhs );
+
+	template<  >
+	bool operator>( map<>& lhs, map<>& rhs );
+	
+	template<  >
+	bool operator>=( map<>& lhs, map<>& rhs );
 }
