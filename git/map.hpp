@@ -6,22 +6,39 @@
 /*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 21:03:42 by eyohn             #+#    #+#             */
-/*   Updated: 2021/09/03 14:54:05 by eyohn            ###   ########.fr       */
+/*   Updated: 2021/11/17 22:25:44 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
-** 4. Check all question about subject
+**	1. Add binary three
 */
 
 #pragma once
 
 #include <iostream>
+#include "source.hpp"
+
 
 namespace ft {
-	template <class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<std::pair<const Key, T> >>
+
+
+	template <class Key, class T, class Compare = less<Key>, class Allocator = std::allocator<pair<const Key, T>> >
 	class map
 	{
+		template<typename T1, typename T2>
+		class t_treeElem{
+			t_treeElem(T1 key, T2 value): _key(key), _value(value), _left(NULL), _right(NULL) {}
+			~t_treeElem(){}
+
+		public:
+			T1				_key;
+			T2				_value;
+			t_treeElem*		_left;
+			t_treeElem*		_right;
+		};
+		
+		
 	public:
 		explicit map( const Compare& comp = Compare(), const Allocator& alloc = Allocator() );
 		template< class InputIterator >
@@ -52,7 +69,7 @@ namespace ft {
 		const T&				at( const Key& key ) const;
 
 		// Modifiers:
-		std::pair<iterator,bool>	insert( const value_type& value );
+		pair<iterator,bool>	insert( const value_type& value );
 		iterator					insert( iterator hint, const value_type& value );
 		template< class InputIt >
 		void						insert( InputIt first, InputIt last );
@@ -64,7 +81,7 @@ namespace ft {
 
 		// Observers:
 		key_compare					key_comp() const;
-		std::map::value_compare		value_comp() const;
+		map::value_compare			value_comp() const;
 
 		// Operations:
 		iterator					find( const Key& key );
@@ -74,29 +91,43 @@ namespace ft {
 		const_iterator				lower_bound( const Key& key ) const;
 		iterator					upper_bound( const Key& key );
 		const_iterator				upper_bound( const Key& key ) const;
-		std::pair<iterator,iterator>				equal_range( const Key& key );
-		std::pair<const_iterator,const_iterator>	equal_range( const Key& key ) const;
+		pair<iterator,iterator>				equal_range( const Key& key );
+		pair<const_iterator,const_iterator>	equal_range( const Key& key ) const;
 	
 
 		// Allocator:
-		allocator_type				get_allocator() const;
+		allocator_type				get_allocator() const{
+			return alloc;
+		}
 	};
 
-	template<  >
-	bool operator==( map<>& lhs, map<>& rhs );
+	template <class Key, class T, class Compare = less<Key>, class Allocator = std::allocator<pair<const Key, T>> >
+	bool operator==( map<Key, T, Compare, Allocator>& lhs, map<Key, T, Compare, Allocator>& rhs ){
+		return (lhs == rhs)
+	}
 
-	template<  >
-	bool operator!=( map<>& lhs, map<>& rhs );
+	template <class Key, class T, class Compare = less<Key>, class Allocator = std::allocator<pair<const Key, T>> >
+	bool operator!=( map<Key, T, Compare, Allocator>& lhs, map<Key, T, Compare, Allocator>& rhs ){
+		return (lhs != rhs)
+	}
 	
-	template<  >
-	bool operator<( map<>& lhs, map<>& rhs );
+	template <class Key, class T, class Compare = less<Key>, class Allocator = std::allocator<pair<const Key, T>> >
+	bool operator<( map<Key, T, Compare, Allocator>& lhs, map<Key, T, Compare, Allocator>& rhs ){
+		return (lhs < rhs)
+	}
 
-	template<  >
-	bool operator<=( map<>& lhs, map<>& rhs );
+	template <class Key, class T, class Compare = less<Key>, class Allocator = std::allocator<pair<const Key, T>> >
+	bool operator<=( map<Key, T, Compare, Allocator>& lhs, map<Key, T, Compare, Allocator>& rhs ){
+		return (lhs <= rhs)
+	}
 
-	template<  >
-	bool operator>( map<>& lhs, map<>& rhs );
+	template <class Key, class T, class Compare = less<Key>, class Allocator = std::allocator<pair<const Key, T>> >
+	bool operator>( map<Key, T, Compare, Allocator>& lhs, map<Key, T, Compare, Allocator>& rhs ){
+		return (lhs > rhs)
+	}
 	
-	template<  >
-	bool operator>=( map<>& lhs, map<>& rhs );
+	template <class Key, class T, class Compare = less<Key>, class Allocator = std::allocator<pair<const Key, T>> >
+	bool operator>=( map<Key, T, Compare, Allocator>& lhs, map<Key, T, Compare, Allocator>& rhs ){
+		return (lhs >= rhs)
+	}
 }
