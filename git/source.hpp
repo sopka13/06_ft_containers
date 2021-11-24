@@ -6,7 +6,7 @@
 /*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 21:50:16 by eyohn             #+#    #+#             */
-/*   Updated: 2021/11/16 01:36:18 by eyohn            ###   ########.fr       */
+/*   Updated: 2021/11/23 22:23:16 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ public:
 };
 
 template <class Arg1, class Arg2, class Result>
-	struct binary_function {
+struct binary_function {
 		typedef Arg1 first_argument_type;
 		typedef Arg2 second_argument_type;
 		typedef Result result_type;
