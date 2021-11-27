@@ -6,7 +6,7 @@
 /*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 21:03:53 by eyohn             #+#    #+#             */
-/*   Updated: 2021/11/16 01:14:35 by eyohn            ###   ########.fr       */
+/*   Updated: 2021/11/27 23:33:02 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 #include "vector.hpp"
 
 namespace ft {
-	template <class T, class ctnr = vector<T>>
+	template <class T, class Container = vector<T>>
 	class stack
 	{
-		vector		_cont;
+		ft::vector<T>		_cont;
 	public:
-		explicit stack( const ft::vector<T>& cont = Container() );
+		explicit stack( const ft::vector<T>& cont = Container() ) : _cont(cont) {};
 		~stack();
 
 		stack<T, ft::vector<T>>&	operator=( const stack<T,Container>& other );
@@ -47,31 +47,31 @@ namespace ft {
 
 	template<class T, class ctnr = vector<T>>
 	bool operator==( stack<T, ctnr>& lhs, stack<T, ctnr>& rhs ){
-		return (lhs == rhs)
+		return (lhs == rhs);
 	}
 
 	template<class T, class ctnr = vector<T>>
 	bool operator!=( stack<T, ctnr>& lhs, stack<T, ctnr>& rhs ){
-		return (lhs != rhs)
+		return (lhs != rhs);
 	}
 
 	template<class T, class ctnr = vector<T>>
 	bool operator<( stack<T, ctnr>& lhs, stack<T, ctnr>& rhs ){
-		return (lhs < rhs)
+		return (lhs < rhs);
 	}
 
 	template<class T, class ctnr = vector<T>>
 	bool operator<=( stack<T, ctnr>& lhs, stack<T, ctnr>& rhs ){
-		return (lhs <= rhs)
+		return (lhs <= rhs);
 	}
 
 	template<class T, class ctnr = vector<T>>
 	bool operator>( stack<T, ctnr>& lhs, stack<T, ctnr>& rhs ){
-		return (lhs > rhs)
+		return (lhs > rhs);
 	}
 
 	template<class T, class ctnr = vector<T>>
 	bool operator>=( stack<T, ctnr>& lhs, stack<T, ctnr>& rhs ){
-		return (lhs >= rhs)
+		return (lhs >= rhs);
 	}
 }

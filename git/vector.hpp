@@ -6,7 +6,7 @@
 /*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 21:03:47 by eyohn             #+#    #+#             */
-/*   Updated: 2021/11/10 23:08:20 by eyohn            ###   ########.fr       */
+/*   Updated: 2021/11/27 22:52:17 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,14 @@ namespace ft {
 		vector& operator=(const vector& other);
 
 		// Iterators:
-		iterator				begin();
-		const_iterator			begin() const;
-		iterator				end();
-		const_iterator			end() const;
-		reverse_iterator		rbegin();
-		const_reverse_iterator	rbegin() const;
-		reverse_iterator		rend();
-		const_reverse_iterator	rend() const;
+		// iterator				begin();
+		// const_iterator			begin() const;
+		// iterator				end();
+		// const_iterator			end() const;
+		// reverse_iterator		rbegin();
+		// const_reverse_iterator	rbegin() const;
+		// reverse_iterator		rend();
+		// const_reverse_iterator	rend() const;
 
 		// Capacity:
 		size_t				size() const{
@@ -51,17 +51,17 @@ namespace ft {
 		size_t				max_size() const{
 			return (_alloc.max_alloc());
 		}
-		void				reserve( size_t size ){
-			if (size <= _capacity)
-				return ;
-			int n = ft::max(_capacity, size);
-			T* temp = new T[n];
-			for (size_t k = 0; k < _size; ++k)
-				temp[k] = _container[k];
-			delete[] _container;
-			_container = temp;
-			_capacity = n;
-		}
+		// void				reserve( size_t size ){
+		// 	if (size <= _capacity)
+		// 		return ;
+		// 	int n = ft::max(_capacity, size);
+		// 	T* temp = new T[n];
+		// 	for (size_t k = 0; k < _size; ++k)
+		// 		temp[k] = _container[k];
+		// 	delete[] _container;
+		// 	_container = temp;
+		// 	_capacity = n;
+		// }
 		size_t				capacity() const{
 			return (_capacity);
 		}
@@ -73,26 +73,26 @@ namespace ft {
 
 		// Element access:
 		T&					operator[]( size_t pos ){
-			// if (pos >= _size)
-			// 	throw std::out_of_range("Array out of bounds");
+			if (pos >= _size)
+				throw std::out_of_range("Array out of bounds");
 			else
 				return (_container[pos]);
 		}
 		const T&			operator[]( size_t pos ) const{
-			// if (pos >= _size)
-			// 	throw std::out_of_range("Array out of bounds");
+			if (pos >= _size)
+				throw std::out_of_range("Array out of bounds");
 			else
 				return (_container[pos]);
 		}
 		T&					at( size_t pos ){
 			if (pos >= _size)
-				throw ft::out_of_range("Array out of bounds");
+				throw std::out_of_range("Array out of bounds");
 			else
 				return (_container[pos]);
 		}
 		const T&			at( size_t pos ) const{
 			if (pos >= _size)
-				throw ft::out_of_range("Array out of bounds");
+				throw std::out_of_range("Array out of bounds");
 			else
 				return (_container[pos]);
 		}
@@ -118,7 +118,7 @@ namespace ft {
 		// Modifiers:
 		void				assign( size_t count, const T& value ){
 			this->clear();
-			for (size_t k = 0; k < count, ++k)
+			for (size_t k = 0; k < count; ++k)
 				push_back(value);
 		}
 		template< class InputIt >
@@ -129,66 +129,66 @@ namespace ft {
 				++first;
 			}
 		}
-		void				push_back( const T& value ){
-			if (!_size)
-				reserve(1);
-			else
-				reserve(_size + 1)
-		}
+		// void				push_back( const T& value ){
+		// 	if (!_size)
+		// 		reserve(1);
+		// 	else
+		// 		reserve(_size + 1);
+		// }
 		void				pop_back(){
 			_size--;
 		}
-		iterator			insert( iterator pos, const T& value ){
-			size_t n = ft::distance(begin(), pos);
-			insert(pos, 1, value);
-			return (iterator(&(_container[n])));
-		}
-		void				insert( iterator pos, size_t count, const T& value ){
-			vector temp(pos, end());
-			_size -= ft::distance(pos, end());
-			while (count){
-				push_back(value)
-				--count;
-			}
-			vector<T>::iterator it = temp.begin();
-			while (it != temp.end()){
-				push_back(*it);
-				it++;
-			}
-		}
-		template< class InputIt >
-		void				insert( iterator pos, InputIt first, InputIt last){
-			vector temp(pos, end());
-			_size -= ft::distance(pos, end());
-			while (first != last){
-				push_back(*first)
-				first++;
-			}
-			vector<T>::iterator it = temp.begin();
-			while (it != temp.end()){
-				push_back(*it);
-				it++;
-			}
-		}
-		iterator			erase( iterator pos ){
-			iterator ret(pos);
-			while (pos != end() - 1) {
-				*pos = *(pos + 1);
-				pos++;
-			}
-			_size--;
-			return (ret);
-		}
-		iterator			erase( iterator first, iterator last ){
-			iterator ret(last);
-			while (last != end()){
-				*first = *last;
-				first++;
-				last++;
-			}
-			_size -= ft::distance(first, last);
-			return (ret);
-		}
+		// iterator			insert( iterator pos, const T& value ){
+		// 	size_t n = ft::distance(begin(), pos);
+		// 	insert(pos, 1, value);
+		// 	return (iterator(&(_container[n])));
+		// }
+		// void				insert( iterator pos, size_t count, const T& value ){
+		// 	vector temp(pos, end());
+		// 	_size -= ft::distance(pos, end());
+		// 	while (count){
+		// 		push_back(value)
+		// 		--count;
+		// 	}
+		// 	vector<T>::iterator it = temp.begin();
+		// 	while (it != temp.end()){
+		// 		push_back(*it);
+		// 		it++;
+		// 	}
+		// }
+		// template< class InputIt >
+		// void				insert( iterator pos, InputIt first, InputIt last){
+		// 	vector temp(pos, end());
+		// 	_size -= ft::distance(pos, end());
+		// 	while (first != last){
+		// 		push_back(*first);
+		// 		first++;
+		// 	}
+		// 	vector<T>::iterator it = temp.begin();
+		// 	while (it != temp.end()){
+		// 		push_back(*it);
+		// 		it++;
+		// 	}
+		// }
+		// iterator			erase( iterator pos ){
+		// 	iterator ret(pos);
+		// 	while (pos != end() - 1) {
+		// 		*pos = *(pos + 1);
+		// 		pos++;
+		// 	}
+		// 	_size--;
+		// 	return (ret);
+		// }
+		// iterator			erase( iterator first, iterator last ){
+		// 	iterator ret(last);
+		// 	while (last != end()){
+		// 		*first = *last;
+		// 		first++;
+		// 		last++;
+		// 	}
+		// 	_size -= ft::distance(first, last);
+		// 	return (ret);
+		// }
 		void				swap( vector& other ){
 			vector temp(other);
 			other = *this;
@@ -198,14 +198,14 @@ namespace ft {
 			while (_size)
 				pop_back();
 		}
-		void				resize( size_t count, T value = T() ){
-			while (count < _size)
-				pop_back();
-			if (count > _capacity)
-				reserve(count);
-			while (count > _size)
-				push_back(value);
-		}
+		// void				resize( size_t count, T value = T() ){
+		// 	while (count < _size)
+		// 		pop_back();
+		// 	if (count > _capacity)
+		// 		reserve(count);
+		// 	while (count > _size)
+		// 		push_back(value);
+		// }
 
 		// Allocator:
 		Allocator			get_allocator() const{
@@ -215,7 +215,7 @@ namespace ft {
 
 	template<class T>
 	bool operator==( vector<T>& lhs, vector<T>& rhs ){
-		if (lhs.data() == rhs,data())
+		if (lhs.data() == rhs.data())
 			return (true);
 		if (lhs.size() != rhs.size())
 			return (false);
@@ -235,7 +235,7 @@ namespace ft {
 
 	template<class T>
 	bool operator!=( vector<T>& lhs, vector<T>& rhs ){
-		if (lhs.data() == rhs,data())
+		if (lhs.data() == rhs.data())
 			return (false);
 		if (lhs.size() != rhs.size())
 			return (true);
@@ -255,7 +255,7 @@ namespace ft {
 
 	template<class T>
 	bool operator<( vector<T>& lhs, vector<T>& rhs ){
-		if (lhs.data() == rhs,data())
+		if (lhs.data() == rhs.data())
 			return (false);
 		if (lhs.size() < rhs.size())
 			return (true);
@@ -275,7 +275,7 @@ namespace ft {
 
 	template<class T>
 	bool operator<=( vector<T>& lhs, vector<T>& rhs ){
-		if (lhs.data() == rhs,data())
+		if (lhs.data() == rhs.data())
 			return (true);
 		if (lhs.size() <= rhs.size())
 			return (true);
@@ -295,7 +295,7 @@ namespace ft {
 
 	template<class T>
 	bool operator>( vector<T>& lhs, vector<T>& rhs ){
-		if (lhs.data() == rhs,data())
+		if (lhs.data() == rhs.data())
 			return (false);
 		if (lhs.size() > rhs.size())
 			return (true);
@@ -315,7 +315,7 @@ namespace ft {
 
 	template<class T>
 	bool operator>=( vector<T>& lhs, vector<T>& rhs ){
-		if (lhs.data() true rhs,data())
+		if (lhs.data() == rhs.data())
 			return (false);
 		if (lhs.size() >= rhs.size())
 			return (true);

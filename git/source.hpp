@@ -6,7 +6,7 @@
 /*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 21:50:16 by eyohn             #+#    #+#             */
-/*   Updated: 2021/11/23 22:23:16 by eyohn            ###   ########.fr       */
+/*   Updated: 2021/11/27 23:39:49 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,18 +58,35 @@ public:
 
 };
 
-template<class T1, class T2>
-class pair {
+template<class _T1, class _T2>
+struct pair {
+	// typedef _T1 first_type;
+	// typedef _T2 second_type;
+	_T1 first;
+	_T2 second;
 
-public:
-
+	pair<_T1, _T2> make_pair(_T1 __x, _T2 __y)
+	{ return pair<_T1, _T2>(__x, __y); }
 };
-
-class make_pair {
-
-public:
-
-};
+template<typename _T1, typename _T2>
+bool operator==(const pair<_T1, _T2>& __x, const pair<_T1, _T2>& __y)
+{ return __x.first == __y.first && __x.second == __y.second; }
+template<typename _T1, typename _T2>
+bool operator!=(const pair<_T1, _T2>& __x, const pair<_T1, _T2>& __y)
+{ return !(__x == __y); }
+template<typename _T1, typename _T2>
+bool operator<(const pair<_T1, _T2>& __x, const pair<_T1, _T2>& __y)
+{ return __x.first < __y.first
+		|| (!(__y.first < __x.first) && __x.second < __y.second); }
+template<typename _T1, typename _T2>
+bool operator<=(const pair<_T1, _T2>& __x, const pair<_T1, _T2>& __y)
+{ return !(__y < __x); }
+template<typename _T1, typename _T2>
+bool operator>(const pair<_T1, _T2>& __x, const pair<_T1, _T2>& __y)
+{ return __y < __x; }
+template<typename _T1, typename _T2>
+bool operator>=(const pair<_T1, _T2>& __x, const pair<_T1, _T2>& __y)
+{ return !(__x < __y); }
 
 template <class Arg1, class Arg2, class Result>
 struct binary_function {

@@ -6,7 +6,7 @@
 /*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 21:03:42 by eyohn             #+#    #+#             */
-/*   Updated: 2021/11/24 23:23:10 by eyohn            ###   ########.fr       */
+/*   Updated: 2021/11/27 23:58:47 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 #include "source.hpp"
 
 namespace ft {
-
 
 	template <class Key, class T, class Compare = less<Key>, class Allocator = std::allocator<pair<const Key, T> > >
 	class map
@@ -37,116 +36,131 @@ namespace ft {
 			t_treeElem*		_right;
 			t_treeElem*		_parent;
 		};
-		Allocator		_al;
-		t_treeElem*		_tree;
-		size_t			_size;
+		Allocator				_al;
+		t_treeElem<Key, T>*		_tree;
+		size_t					_size;
+		Compare					_comp;
 		
 	public:
-		explicit map( const Compare& comp = Compare(), const Allocator& alloc = Allocator() );
-		template< class InputIterator >
-		map( InputIterator first, InputIterator last, const Compare& comp = Compare(), const Allocator& alloc = Allocator() );
-		map( const map& other );
-		~map();
+		explicit map( const Compare& comp = Compare(), const Allocator& alloc = Allocator() ):
+			_al(alloc),
+			_tree(),
+			_comp(comp),
+			_size(0)
+		{
+			std::cout << "Fine" << std::endl;
+		}
+		// template< class InputIterator >
+		// map( InputIterator first, InputIterator last, const Compare& comp = Compare(), const Allocator& alloc = Allocator() ):
+			
+		// map( const map& other );
+		// ~map();
 
-		map& operator=( const map& other );
+		// map& operator=( const map& other );
 
 		// Iterators:
-		iterator				begin();
-		const_iterator			begin() const;
-		iterator				end();
-		const_iterator			end() const;
-		reverse_iterator		rbegin();
-		const_reverse_iterator	rbegin() const;
-		reverse_iterator		rend();
-		const_reverse_iterator	rend() const;
+		// iterator				begin();
+		// const_iterator			begin() const;
+		// iterator				end();
+		// const_iterator			end() const;
+		// reverse_iterator		rbegin();
+		// const_reverse_iterator	rbegin() const;
+		// reverse_iterator		rend();
+		// const_reverse_iterator	rend() const;
 
 		// Capacity:
-		bool					empty() const {
-			return if (_size) false; else true;
-		}
-		size_t				size() const {
-			return _size;
-		}
-		size_t				max_size() const {
-			long a = sysconf(_SC_PHYS_PAGES);
-			long b = sysconf(_SC_PAGESIZE);
-			long c = a * b;
-			return static_cast<size_t>(c / sizeof(t_treeElem))
-		}
+		// bool					empty() const {
+		// 	return if (_size) false; else true;
+		// }
+		// size_t				size() const {
+		// 	return _size;
+		// }
+		// size_t				max_size() const {
+		// 	long a = sysconf(_SC_PHYS_PAGES);
+		// 	long b = sysconf(_SC_PAGESIZE);
+		// 	long c = a * b;
+		// 	return static_cast<size_t>(c / sizeof(t_treeElem))
+		// }
 
 		// Element access:
-		T&						operator[]( const Key& key ){
-			// need search by tree
-		}
-		T&						at( const Key& key ){
-			// need search by tree
-		}
-		const T&				at( const Key& key ) const{
-			// need search by tree
-		}
+		// T&						operator[]( const Key& key ){
+		// 	// need search by tree
+		// }
+		// T&						at( const Key& key ){
+		// 	// need search by tree
+		// }
+		// const T&				at( const Key& key ) const{
+		// 	// need search by tree
+		// }
 
 		// Modifiers:
-		pair<iterator,bool>			insert( const value_type& value ){
-			
-		}
-		iterator					insert( iterator hint, const value_type& value );
-		template< class InputIt >
-		void						insert( InputIt first, InputIt last );
-		void						erase( iterator position );
-		void						erase( iterator first, iterator last );
-		size_type					erase( const key_type& key );
-		void						swap( map& other );
-		void						clear();
+		// pair<iterator,bool>			insert( const pair<const Key, T>& value ){
+		// 	if (_size) {
+		// 		// if have elements
+		// 		value.
+		// 	}
+		// 	else {
+		// 		// need constructor
+		// 	}
+		// }
+		// iterator					insert( iterator hint, const value_type& value );
+		// template< class InputIt >
+		// void						insert( InputIt first, InputIt last );
+		// void						erase( iterator position );
+		// void						erase( iterator first, iterator last );
+		// size_type					erase( const key_type& key );
+		// void						swap( map& other );
+		// void						clear();
 
 		// Observers:
-		key_compare					key_comp() const;
-		map::value_compare			value_comp() const;
+		// key_compare					key_comp() const;
+		// map::value_compare			value_comp() const;
 
 		// Operations:
-		iterator					find( const Key& key );
-		const_iterator				find( const Key& key ) const;
-		size_type					count( const Key& key ) const;
-		iterator					lower_bound( const Key& key );
-		const_iterator				lower_bound( const Key& key ) const;
-		iterator					upper_bound( const Key& key );
-		const_iterator				upper_bound( const Key& key ) const;
-		pair<iterator,iterator>				equal_range( const Key& key );
-		pair<const_iterator,const_iterator>	equal_range( const Key& key ) const;
+		// iterator					find( const Key& key );
+		// const_iterator				find( const Key& key ) const;
+		// size_type					count( const Key& key ) const;
+		// iterator					lower_bound( const Key& key );
+		// const_iterator				lower_bound( const Key& key ) const;
+		// iterator					upper_bound( const Key& key );
+		// const_iterator				upper_bound( const Key& key ) const;
+		// pair<iterator,iterator>				equal_range( const Key& key );
+		// pair<const_iterator,const_iterator>	equal_range( const Key& key ) const;
 	
 
 		// Allocator:
-		allocator_type				get_allocator() const{
-			return alloc;
+		Allocator				get_allocator() const{
+			return _al;
 		}
 	};
 
 	template <class Key, class T, class Compare = less<Key>, class Allocator = std::allocator<pair<const Key, T> > >
 	bool operator==( map<Key, T, Compare, Allocator>& lhs, map<Key, T, Compare, Allocator>& rhs ){
-		return (lhs == rhs)
+		return (lhs == rhs);
 	}
 
 	template <class Key, class T, class Compare = less<Key>, class Allocator = std::allocator<pair<const Key, T> > >
 	bool operator!=( map<Key, T, Compare, Allocator>& lhs, map<Key, T, Compare, Allocator>& rhs ){
-		return (lhs != rhs)
+		return (lhs != rhs);
 	}
 	
 	template <class Key, class T, class Compare = less<Key>, class Allocator = std::allocator<pair<const Key, T> > >
 	bool operator<( map<Key, T, Compare, Allocator>& lhs, map<Key, T, Compare, Allocator>& rhs ){
-		return (lhs < rhs)
+		return (lhs < rhs);
 	}
 
 	template <class Key, class T, class Compare = less<Key>, class Allocator = std::allocator<pair<const Key, T> > >
 	bool operator<=( map<Key, T, Compare, Allocator>& lhs, map<Key, T, Compare, Allocator>& rhs ){
-		return (lhs <= rhs)
+		return (lhs <= rhs);
 	}
 
 	template <class Key, class T, class Compare = less<Key>, class Allocator = std::allocator<pair<const Key, T> > >
 	bool operator>( map<Key, T, Compare, Allocator>& lhs, map<Key, T, Compare, Allocator>& rhs ){
-		return (lhs > rhs)
+		return (lhs > rhs);
 	}
 	
 	template <class Key, class T, class Compare = less<Key>, class Allocator = std::allocator<pair<const Key, T> > >
 	bool operator>=( map<Key, T, Compare, Allocator>& lhs, map<Key, T, Compare, Allocator>& rhs ){
-		return (lhs >= rhs)
+		return (lhs >= rhs);
 	}
 }

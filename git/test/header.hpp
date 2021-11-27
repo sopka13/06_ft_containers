@@ -6,7 +6,7 @@
 /*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 21:45:15 by eyohn             #+#    #+#             */
-/*   Updated: 2021/11/24 23:02:17 by eyohn            ###   ########.fr       */
+/*   Updated: 2021/11/27 23:58:51 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <iostream>
 #include <cstdio>
 #include <map>
+#include <vector>
 #include <unistd.h>
 
 namespace ft{

@@ -6,7 +6,7 @@
 /*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 22:45:06 by eyohn             #+#    #+#             */
-/*   Updated: 2021/11/24 23:12:17 by eyohn            ###   ########.fr       */
+/*   Updated: 2021/11/27 23:58:50 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,7 @@ int		main(int argc, char** argv){
 	printf("Free pages = %ld; page size = %ld; free memory = %lld\n", a, b, c);
 	std::map<int, int> ff;
 	printf("Max size = %lu\n", ff.max_size());
+	// ff.insert()
+	// std::vector ss;
+	std::pair
 }
