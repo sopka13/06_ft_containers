@@ -6,7 +6,7 @@
 /*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 22:45:06 by eyohn             #+#    #+#             */
-/*   Updated: 2021/11/27 23:58:50 by eyohn            ###   ########.fr       */
+/*   Updated: 2021/11/28 14:36:37 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		main(int argc, char** argv){
 	// Create my object
-	// ft::map<int, int>	a;
+	std::map<int, int>	a;
 
 	// Return pointer to an allocator
 	// std::allocator<ft::map<int, int> >* f = a.getAllocatorPointer();

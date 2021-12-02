@@ -6,7 +6,7 @@
 /*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 21:03:47 by eyohn             #+#    #+#             */
-/*   Updated: 2021/11/27 22:52:17 by eyohn            ###   ########.fr       */
+/*   Updated: 2021/11/28 14:36:43 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "source.hpp"
 
 namespace ft {
-	template <class T, class Allocator = std::allocator<T>>
+	template <class T, class Allocator = std::allocator<T> >
 	class vector
 	{
 		T*			_container;
