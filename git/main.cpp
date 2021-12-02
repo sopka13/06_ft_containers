@@ -13,19 +13,39 @@
 // #endif
 
 
-#include "map.hpp"
+#include "stl_map.hpp"
 #include "source.hpp"
 #include "stack.hpp"
 #include "vector.hpp"
+#include <stdio.h>
 
 int		main(void) {
 
 	// Test my map container
-	ft::map<int, int> f;											// create my map copy
-	std::allocator<pair<const int, int>> aloc = f.get_allocator();	// get allocator test function
-	auto pointer = aloc.allocate(sizeof(pair<const int, int>));		// use allocator pointer
-	ft::map<const int, int>* ff = new (pointer) ft::map<const int, int>;		// start constructor at the adress
-	std::allocator<pair<const int, int>> pp = ff->get_allocator();
+	ft::map<int, int> f;																// create my map copy
+	// // std::cout << "1" << std::endl;
+	// std::allocator<pair<const int, int> > aloc = f.get_allocator();						// get allocator test function
+	// // std::cout << "2" << std::endl;
+	// pair<const int, int>* pointer = aloc.allocate(sizeof(pair<const int, int>));		// use allocator pointer
+	// // std::cout << "3" << std::endl;
+	// ft::map<const int, int>* ff = new (pointer) ft::map<const int, int>;				// start constructor at the adress
+	// // std::cout << "4" << std::endl;
+	// std::allocator<pair<const int, int> > pp = ff->get_allocator();						// get allocator from object
+	// // std::cout << "5" << std::endl;
+	// ff->~map();																			// start destructor
+	// // std::cout << "6" << std::endl;
+	// aloc.deallocate(pointer, sizeof(pair<const int, int>));								// free memory
+	// // std::cout << "7" << std::endl;
+
+	printf("Return emty status: %d\n", f.empty());		// test empty function
+	printf("Return size: %lu\n", f.size());				// test size function
+	printf("Return max_size: %lu\n", f.max_size());		// test max_size function
+
+	pair<const int, int> pr = { 1, 2 };
+	f.insert(pr);
+
+	printf("Return emty status: %d\n", f.empty());		// test empty function
+	printf("Return size: %lu\n", f.size());				// test size function
 	return 0;
 }
 
