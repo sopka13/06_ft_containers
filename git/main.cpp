@@ -26,6 +26,7 @@ int		main(void) {
 	auto pointer = aloc.allocate(sizeof(pair<const int, int>));		// use allocator pointer
 	ft::map<const int, int>* ff = new (pointer) ft::map<const int, int>;		// start constructor at the adress
 	std::allocator<pair<const int, int>> pp = ff->get_allocator();
+	std::map
 	return 0;
 }
 
