@@ -6,7 +6,7 @@
 /*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 21:50:16 by eyohn             #+#    #+#             */
-/*   Updated: 2021/11/28 14:36:38 by eyohn            ###   ########.fr       */
+/*   Updated: 2021/12/04 13:40:03 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,19 @@ public:
 
 template<class _T1, class _T2>
 struct pair {
-	// typedef _T1 first_type;
-	// typedef _T2 second_type;
 	_T1 first;
 	_T2 second;
 
-	pair<_T1, _T2> make_pair(_T1 __x, _T2 __y)
-	{ return pair<_T1, _T2>(__x, __y); }
+	pair<_T1, _T2>(_T1 x, _T2 y):
+		first(x),
+		second(y)
+	{}
+	pair<_T1, _T2>(const pair<_T1, _T2>& pr):
+		first(pr.first),
+		second(pr.second)
+	{}
+	pair<_T1, _T2> make_pair(_T1 x, _T2 y)
+	{ return pair<_T1, _T2>(x, y); }
 };
 template<typename _T1, typename _T2>
 bool operator==(const pair<_T1, _T2>& __x, const pair<_T1, _T2>& __y)
