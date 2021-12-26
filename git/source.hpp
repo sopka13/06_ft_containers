@@ -6,7 +6,7 @@
 /*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 21:50:16 by eyohn             #+#    #+#             */
-/*   Updated: 2021/11/28 14:36:38 by eyohn            ###   ########.fr       */
+/*   Updated: 2021/12/25 23:11:40 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,23 @@
 
 #pragma once
 
-class iterator{
+// class iterator{
 	
-public:
+// public:
 
-};
+// };
 
-class iterator_trails{
+// class iterator_trails{
 
-public:
+// public:
 
-};
+// };
 
-class reverse_iterator{
+// class reverse_iterator{
 
-public:
+// public:
 
-};
+// };
 
 class enable_if{
 
@@ -60,13 +60,32 @@ public:
 
 template<class _T1, class _T2>
 struct pair {
-	// typedef _T1 first_type;
-	// typedef _T2 second_type;
 	_T1 first;
 	_T2 second;
 
-	pair<_T1, _T2> make_pair(_T1 __x, _T2 __y)
-	{ return pair<_T1, _T2>(__x, __y); }
+	pair():
+		first(),
+		second()
+	{}
+
+	pair(pair<_T1, _T2> const & pr):
+		first(pr.first),
+		second(pr.second)
+	{}
+
+	pair<_T1, _T2>(_T1 x, _T2 y):
+		first(x),
+		second(y)
+	{}
+	// pair<_T1, _T2>(const pair<_T1, _T2>& pr):
+	// 	first(pr.first),
+	// 	second(pr.second)
+	// {}
+	pair<_T1, _T2> make_pair(_T1 x, _T2 y)
+	{ return pair<_T1, _T2>(x, y); }
+	operator pair<const _T1, _T2>() {
+		return pair<const _T1, _T2>(this->first, this->second);
+	}
 };
 template<typename _T1, typename _T2>
 bool operator==(const pair<_T1, _T2>& __x, const pair<_T1, _T2>& __y)
