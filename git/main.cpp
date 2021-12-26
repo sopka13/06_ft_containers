@@ -6,7 +6,7 @@
 /*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 21:48:39 by eyohn             #+#    #+#             */
-/*   Updated: 2021/12/26 15:28:28 by eyohn            ###   ########.fr       */
+/*   Updated: 2021/12/26 17:17:42 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,10 +121,10 @@ int		main(void) {
 		std::cout << "\n Iterators test start" << std::endl;
 
 		ft::map<int, int> map_01;
-		pair<const int, int> p1(9, 11);
-		pair<const int, int> p2(99, 12);
-		pair<const int, int> p3(3, 13);
-		pair<const int, int> p4(5, 13);
+		pair<const int, int> p1(1, 11);
+		pair<const int, int> p2(9, 12);
+		pair<const int, int> p3(-3, 13);
+		pair<const int, int> p4(0, 14);
 		map_01.insert(p1);
 		map_01.insert(p2);
 		map_01.insert(p3);
@@ -140,19 +140,12 @@ int		main(void) {
 		ft::map<int, int>::iterator					it_01 = map_01.begin();
 		ft::map<int, int>::iterator					it_02 = map_01.end();
 		// it_01->first = 933;
-		it_01->second = 933;
+		// it_01->second = 933;
 		while (it_01 != it_02){
 			std::cout << it_01->first << " => " << it_01->second << std::endl;
 			it_01++;
 		}
 
-		// it_01 = map_01.begin();
-		// it_02 = map_01.end();
-		// while (it_02 != it_01){
-		// 	it_02--;
-		// 	std::cout << it_02->first << " => " << it_02->second << std::endl;
-		// }
-	
 		ft::map<int, int>::const_iterator			it_03 = map_01.begin();
 		ft::map<int, int>::const_iterator			it_04 = map_01.end();
 		// it_03->first = 933;
@@ -161,11 +154,59 @@ int		main(void) {
 			std::cout << it_03->first << " => " << it_03->second << std::endl;
 			it_03++;
 		}
-		// ft::map<int, int>::const_iterator			it_04 = map_01.end();
-		// ft::map<int, int>::reverse_iterator			it_05 = map_01.rbegin();
-		// ft::map<int, int>::reverse_iterator			it_07 = map_01.rend();
-		// ft::map<int, int>::const_reverse_iterator	it_06 = map_01.rbegin();
-		// ft::map<int, int>::const_reverse_iterator	it_08 = map_01.rend();
+
+		ft::map<int, int>::reverse_iterator			it_05 = map_01.rbegin();
+		ft::map<int, int>::reverse_iterator			it_06 = map_01.rend();
+		// it_05->first = 933;
+		// it_05->second = 933;
+		while (it_05 != it_06){
+			std::cout << it_05->first << " => " << it_05->second << std::endl;
+			it_05++;
+		}
+
+		ft::map<int, int>::const_reverse_iterator	it_07 = map_01.rbegin();
+		ft::map<int, int>::const_reverse_iterator	it_08 = map_01.rend();
+		// it_07->first = 933;
+		// it_07->second = 933;
+		while (it_07 != it_08){
+			std::cout << it_07->first << " => " << it_07->second << std::endl;
+			it_07++;
+		}
+
+		std::cout << (int)(it_01 == it_02) << std::endl;
+		std::cout << (int)(it_03 == it_04) << std::endl;
+		std::cout << (int)(it_05 == it_06) << std::endl;
+		std::cout << (int)(it_07 == it_08) << std::endl;
+
+		std::cout << (int)(it_01 >= it_02) << std::endl;
+		std::cout << (int)(it_03 >= it_04) << std::endl;
+		std::cout << (int)(it_05 >= it_06) << std::endl;
+		std::cout << (int)(it_07 >= it_08) << std::endl;
+
+		std::cout << (int)(it_01 > it_02) << std::endl;
+		std::cout << (int)(it_03 > it_04) << std::endl;
+		std::cout << (int)(it_05 > it_06) << std::endl;
+		std::cout << (int)(it_07 > it_08) << std::endl;
+
+		std::cout << (int)(it_01 <= it_02) << std::endl;
+		std::cout << (int)(it_03 <= it_04) << std::endl;
+		std::cout << (int)(it_05 <= it_06) << std::endl;
+		std::cout << (int)(it_07 <= it_08) << std::endl;
+
+		std::cout << (int)(it_01 < it_02) << std::endl;
+		std::cout << (int)(it_03 < it_04) << std::endl;
+		std::cout << (int)(it_05 < it_06) << std::endl;
+		std::cout << (int)(it_07 < it_08) << std::endl;
+
+		// std::cout << (int)(it_01 == it_03) << std::endl;
+		// std::cout << (int)(it_01 == it_05) << std::endl;
+		// std::cout << (int)(it_01 == it_07) << std::endl;
+
+		// std::cout << (int)(it_03 == it_05) << std::endl;
+		// std::cout << (int)(it_03 == it_07) << std::endl;
+
+		// std::cout << (int)(it_05 == it_07) << std::endl;
+
 	}
 	//------Observers---------
 	{

@@ -6,7 +6,7 @@
 /*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 22:25:26 by eyohn             #+#    #+#             */
-/*   Updated: 2021/12/26 15:19:13 by eyohn            ###   ########.fr       */
+/*   Updated: 2021/12/26 17:54:40 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 #include <iostream>
 #include <unistd.h>
+#include <math.h>
 #include "source.hpp"
 
 namespace ft {
@@ -93,17 +94,17 @@ namespace ft {
 			t_treeElem<const Key, T>*	get_p() {
 				return (_pointer);
 			}
-			pair<const Key, T>&				operator*(){
+			pair<const Key, T>&			operator*(){
 				return (_pointer->_kv);
 			}
-			iterator_type			operator=(t_treeElem<const Key, T>* pointer) {
+			iterator_type				operator=(t_treeElem<const Key, T>* pointer) {
 				this->_pointer = pointer;
 				return *this;
 			}
-			bool					operator==(iterator_type it) {
+			bool						operator==(iterator_type it) {
 				return this->_pointer == it.get_p();
 			}
-			iterator_type			operator++(int) {
+			iterator_type				operator++(int) {
 				//	1. check current position
 				//	2. if have right
 				//		2.1. rewrite _pointer to _right and return
@@ -160,7 +161,7 @@ namespace ft {
 				}
 				return *this;
 			}
-			iterator_type			operator--(int) {
+			iterator_type				operator--(int) {
 				//	1. check current position
 				//	2. if have _left
 				//		2.1. rewrite _pointer to _left and return
@@ -217,19 +218,19 @@ namespace ft {
 				}
 				return *this;
 			}
-			bool					operator>(iterator_type it) {
+			bool						operator>(iterator_type it) {
 				return this->_pointer > it.get_p();
 			}
-			bool					operator>=(iterator_type it) {
+			bool						operator>=(iterator_type it) {
 				return this->_pointer >= it.get_p();
 			}
-			bool					operator<(iterator_type it) {
+			bool						operator<(iterator_type it) {
 				return this->_pointer < it.get_p();
 			}
-			bool					operator<=(iterator_type it) {
+			bool						operator<=(iterator_type it) {
 				return this->_pointer <= it.get_p();
 			}
-			bool					operator!=(iterator_type it) {
+			bool						operator!=(iterator_type it) {
 				return this->_pointer != it.get_p();
 			}
 			pair<const Key, T>*			operator->() {
@@ -835,8 +836,10 @@ namespace ft {
 			}
 		}
 
+		// map& operator=( const map& other );
+
 	private:
-		t_treeElem<const Key, T>*				search(Key key) {
+		t_treeElem<const Key, T>*		search(Key key) {
 			// Search Key in tree
 			// while (1)
 			//		1. if key == node_key
@@ -948,7 +951,7 @@ namespace ft {
 			}
 		}
 
-		t_treeElem<const Key, T>*				search_max(t_treeElem<const Key, T>* p) {
+		t_treeElem<const Key, T>*		search_max(t_treeElem<const Key, T>* p) {
 			while (1) {
 				if (p->_right) {
 					p = p->_right;
@@ -959,7 +962,7 @@ namespace ft {
 			return p;
 		}
 
-		t_treeElem<const Key, T>*				search_min(t_treeElem<const Key, T>* p) {
+		t_treeElem<const Key, T>*		search_min(t_treeElem<const Key, T>* p) {
 			while (1) {
 				if (p->_left) {
 					p = p->_left;
@@ -985,7 +988,12 @@ namespace ft {
 		}
 
 	public:
-		// void			insert( const pair<const Key, T>& value ){
+		// Element access
+		// T&							at( const Key& key );
+		// const T&						at( const Key& key ) const;
+		// T&							operator[]( const Key& key );
+
+		// Modifiers:
 		pair<iterator, bool>			insert( const pair<const Key, T>& value ){
 			// Search this Key in tree and add if not found
 			t_treeElem<const Key, T>*	 pp = search(value.first);
@@ -1056,7 +1064,9 @@ namespace ft {
 				}
 			}
 		}
-
+		// iterator						insert( iterator hint, const value_type& value );
+		// template< class InputIt >
+		// void							insert( InputIt first, InputIt last );
 		void							erase( iterator position ){
 			// 1. if only one elem in tree
 			//		1.1. destructor
@@ -1377,33 +1387,56 @@ namespace ft {
 			// _al.deallocate(position.get_p(), sizeof(t_treeElem<const Key, T>));
 			// _size--;
 		}
-
+		// void							erase( iterator first, iterator last );
+		// size_type					erase( const key_type& key );
+		// void							swap( map& other );
+		// void							clear();
 		void less() {
 			std::cout << _compare(_tree->_key, _tree->_value) << std::endl;
 		}
 
 		// Capacity:
-		bool				empty() const {
+		bool							empty() const {
 			return (_size) ? false : true;
 		}
-		size_t				size() const {
+		size_t							size() const {
 			return _size;
 		}
-		size_t				max_size() const {
+		size_t							max_size() const {
 			long a = sysconf(_SC_PHYS_PAGES);
 			long b = sysconf(_SC_PAGESIZE);
 			long c = a * b;
 			return static_cast<size_t>(c / sizeof(t_treeElem<const Key, T>));
 		}
 
+		// Observers:
+		// key_compare					key_comp() const;
+		// map::value_compare			value_comp() const;
+
+		// Operations:
+		// iterator						find( const Key& key );
+		// const_iterator				find( const Key& key ) const;
+		// size_type					count( const Key& key ) const;
+		// iterator						lower_bound( const Key& key );
+		// const_iterator				lower_bound( const Key& key ) const;
+		// iterator						upper_bound( const Key& key );
+		// const_iterator				upper_bound( const Key& key ) const;
+		// pair<iterator,iterator>				equal_range( const Key& key );
+		// pair<const_iterator,const_iterator>	equal_range( const Key& key ) const;
+
+		// Allocator:
+		Allocator						get_allocator() const{
+			return _al;
+		}
+
 		// Iterators:
-		iterator				begin(){
+		iterator						begin(){
 			return iterator(search_min(_tree), this);
 		}
-		const_iterator			begin() const {
+		const_iterator					begin() const {
 			return const_iterator(search_min(_tree), this);
 		}
-		iterator				end(){
+		iterator						end(){
 			if (_n_node) {
 				return iterator(_n_node, this);
 			} else {
@@ -1412,7 +1445,7 @@ namespace ft {
 				return iterator(_n_node, this);
 			}
 		}
-		const_iterator			end() const {
+		const_iterator					end() const {
 			if (_n_node) {
 				return const_iterator(_n_node, this);
 			} else {
@@ -1421,13 +1454,13 @@ namespace ft {
 				return const_iterator(_n_node, this);
 			}
 		}
-		reverse_iterator		rbegin(){
+		reverse_iterator				rbegin(){
 			return reverse_iterator(search_max(_tree), this);
 		}
-		const_reverse_iterator	rbegin() const{
+		const_reverse_iterator			rbegin() const{
 			return const_reverse_iterator(search_max(_tree), this);
 		}
-		reverse_iterator		rend(){
+		reverse_iterator				rend(){
 			if (_rn_node) {
 				return reverse_iterator(_rn_node, this);
 			} else {
@@ -1436,7 +1469,7 @@ namespace ft {
 				return reverse_iterator(_rn_node, this);
 			}
 		}
-		const_reverse_iterator	rend() const{
+		const_reverse_iterator			rend() const{
 			if (_rnn_node) {
 				return const_reverse_iterator(_rnn_node, this);
 			} else {
@@ -1446,4 +1479,34 @@ namespace ft {
 			}
 		}
 	};
+
+	template <class Key, class T, class Compare, class Allocator>
+	bool operator==( map<Key, T, Compare, Allocator>& lhs, map<Key, T, Compare, Allocator>& rhs ){
+		return (lhs == rhs);
+	}
+
+	template <class Key, class T, class Compare, class Allocator>
+	bool operator!=( map<Key, T, Compare, Allocator>& lhs, map<Key, T, Compare, Allocator>& rhs ){
+		return (lhs != rhs);
+	}
+	
+	template <class Key, class T, class Compare, class Allocator>
+	bool operator<( map<Key, T, Compare, Allocator>& lhs, map<Key, T, Compare, Allocator>& rhs ){
+		return (lhs < rhs);
+	}
+
+	template <class Key, class T, class Compare, class Allocator>
+	bool operator<=( map<Key, T, Compare, Allocator>& lhs, map<Key, T, Compare, Allocator>& rhs ){
+		return (lhs <= rhs);
+	}
+
+	template <class Key, class T, class Compare, class Allocator>
+	bool operator>( map<Key, T, Compare, Allocator>& lhs, map<Key, T, Compare, Allocator>& rhs ){
+		return (lhs > rhs);
+	}
+	
+	template <class Key, class T, class Compare, class Allocator>
+	bool operator>=( map<Key, T, Compare, Allocator>& lhs, map<Key, T, Compare, Allocator>& rhs ){
+		return (lhs >= rhs);
+	}
 }

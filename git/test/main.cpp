@@ -6,7 +6,7 @@
 /*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 22:45:06 by eyohn             #+#    #+#             */
-/*   Updated: 2021/12/23 09:01:47 by eyohn            ###   ########.fr       */
+/*   Updated: 2021/12/26 17:47:05 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,76 +37,29 @@ int		main(int argc, char** argv){
 	// Create my object
 	std::map<int, int>	a;
 
-	a.insert(std::pair<int, int>(1, 1));
-	a.insert(std::pair<int, int>(2, 2));
-	a.insert(std::pair<int, int>(3, 3));
-	a.insert(std::pair<int, int>(4, 4));
-	a.insert(std::pair<int, int>(5, 5));
+	a.insert(std::pair<int, int>(1, 11));
+	a.insert(std::pair<int, int>(2, 12));
+	a.insert(std::pair<int, int>(3, 13));
+	a.insert(std::pair<int, int>(4, 14));
+	a.insert(std::pair<int, int>(5, 15));
 
-	std::map<int, int>::iterator				f_01 = a.begin();
-	std::map<int, int>::const_iterator			f_02 = a.begin();
-	std::map<int, int>::reverse_iterator		f_03 = a.rend();
-	std::map<int, int>::const_reverse_iterator	f_04 = a.rend();
-	f_03--;
-	f_04--;
-	std::map<int, int>::iterator				f_011 = a.begin();
-	std::map<int, int>::const_iterator			f_021 = a.begin();
-	std::map<int, int>::reverse_iterator		f_031 = a.rend();
-	std::map<int, int>::const_reverse_iterator	f_041 = a.rend();
-	f_031--;
-	f_041--;
+	std::map<int, int>::iterator	it_01 = a.begin();
+	std::map<int, int>::iterator	it_02 = a.end();
+	while (it_01 != it_02) {
+		std::cout << it_01->first << " => " << it_01->second << std::endl;
+		it_01++;
+	}
 
-	std::cout << f_01->first << " => " << f_01->second << std::endl;
-	std::cout << f_02->first << " => " << f_02->second << std::endl;
-	std::cout << f_03->first << " => " << f_03->second << std::endl;
-	std::cout << f_04->first << " => " << f_04->second << std::endl;
+	std::map<int, int>::iterator	it = a.begin();
+	it++;
 
-	// iterator
-	// const_iterator
-	// reverse_iterator
-	// const_reverse_iterator
-	//
-	// iterator | const_iterator
-	// iterator | reverse_iterator
-	// iterator | const_reverse_iterator
-	//
-	// const_iterator | reverse_iterator
-	// const_iterator | const_reverse_iterator
-	//
-	// reverse_iterator | const_reverse_iterator
+	std::pair<int, int> b(99, 99);
+	a.insert(it, b);
 
-	std::cout << (int)(f_01 != f_011) << std::endl;
-	std::cout << (int)(f_02 != f_021) << std::endl;
-	std::cout << (int)(f_03 != f_031) << std::endl;
-	std::cout << (int)(f_04 != f_041) << std::endl;
-
-	std::cout << (int)(f_01 != f_02) << std::endl;
-	// std::cout << (int)(f_01 != f_03) << std::endl;
-	// std::cout << (int)(f_01 != f_04) << std::endl;
-
-	// std::cout << (int)(f_02 != f_03) << std::endl;
-	// std::cout << (int)(f_02 != f_04) << std::endl;
-
-	std::cout << (int)(f_03 != f_04) << std::endl;
-
-	// f_01 = f_011;
-	// f_02 = f_021;
-	// f_03 = f_031;
-	// f_04 = f_041;
-
-	// f_01 = f_02;
-	// f_01 = f_03;
-	// f_01 = f_04;
-
-	// f_02 = f_01;
-	// f_02 = f_03;
-	// f_02 = f_04;
-
-	// f_03 = f_01;
-	// f_03 = f_02;
-	// f_03 = f_04;
-
-	// f_04 = f_01;
-	// f_04 = f_02;
-	// f_04 = f_03;
+	it_01 = a.begin();
+	it_02 = a.end();
+	while (it_01 != it_02){
+		std::cout << it_01->first << " => " << it_01->second << std::endl;
+		it_01++;
+	}
 }
