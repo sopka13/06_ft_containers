@@ -6,7 +6,7 @@
 /*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 21:03:42 by eyohn             #+#    #+#             */
-/*   Updated: 2021/11/30 22:20:01 by eyohn            ###   ########.fr       */
+/*   Updated: 2021/12/26 15:44:32 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ namespace ft {
 	class map
 	{
 		template<typename T1, typename T2>
-		class t_treeElem{
+		class t_treeElem {
 
 		public:
 			t_treeElem(const pair<const T1, T2>& value):
@@ -46,7 +46,6 @@ namespace ft {
 		};
 		Allocator				_al;
 		t_treeElem<Key, T>*		_tree;
-		pair<const Key, T>*		_fff;
 		size_t					_size;
 		Compare					_comp;
 		

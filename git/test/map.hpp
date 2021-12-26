@@ -6,7 +6,7 @@
 /*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 22:19:00 by eyohn             #+#    #+#             */
-/*   Updated: 2021/11/30 22:12:44 by eyohn            ###   ########.fr       */
+/*   Updated: 2021/12/26 15:44:33 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,49 +42,43 @@ namespace ft
 		};
 
 	private:
-	typedef typename __gnu_cxx::__alloc_traits<_Alloc>::template
-	rebind<value_type>::other _Pair_alloc_type;
+		typedef typename __gnu_cxx::__alloc_traits<_Alloc>::template
+		rebind<value_type>::other					_Pair_alloc_type;
 
-	typedef _Rb_tree<key_type, value_type, _Select1st<value_type>,
-			 key_compare, _Pair_alloc_type> _Rep_type;
+		typedef _Rb_tree<key_type, value_type, _Select1st<value_type>,
+					key_compare, _Pair_alloc_type>	_Rep_type;
 
-	_Rep_type _M_t;
+		_Rep_type _M_t;
 
-	typedef __gnu_cxx::__alloc_traits<_Pair_alloc_type> _Alloc_traits;
+		typedef __gnu_cxx::__alloc_traits<_Pair_alloc_type>	_Alloc_traits;
 
 	public:
-		typedef typename _Alloc_traits::pointer		 pointer;
-		typedef typename _Alloc_traits::const_pointer	 const_pointer;
-		typedef typename _Alloc_traits::reference		 reference;
-		typedef typename _Alloc_traits::const_reference	 const_reference;
-		typedef typename _Rep_type::iterator		 iterator;
-		typedef typename _Rep_type::const_iterator	 const_iterator;
-		typedef typename _Rep_type::size_type		 size_type;
-		typedef typename _Rep_type::difference_type	 difference_type;
-		typedef typename _Rep_type::reverse_iterator	 reverse_iterator;
-		typedef typename _Rep_type::const_reverse_iterator const_reverse_iterator;
+		typedef typename _Alloc_traits::pointer			pointer;
+		typedef typename _Alloc_traits::const_pointer		const_pointer;
+		typedef typename _Alloc_traits::reference			reference;
+		typedef typename _Alloc_traits::const_reference		const_reference;
+		typedef typename _Rep_type::iterator			iterator;
+		typedef typename _Rep_type::const_iterator		const_iterator;
+		typedef typename _Rep_type::size_type			size_type;
+		typedef typename _Rep_type::difference_type		difference_type;
+		typedef typename _Rep_type::reverse_iterator		reverse_iterator;
+		typedef typename _Rep_type::const_reverse_iterator	const_reverse_iterator;
 
 		map() = default;
 
-		explicit
-		map(const _Compare& __comp,
-		const allocator_type& __a = allocator_type())
-		: _M_t(__comp, _Pair_alloc_type(__a)) { }
+		explicit map(const _Compare& __comp, const allocator_type& __a = allocator_type()):
+			_M_t(__comp, _Pair_alloc_type(__a))
+		{ }
 
 		map(const map&) = default;
 
-		map(initializer_list<value_type> __l,
-		const _Compare& __comp = _Compare(),
-		const allocator_type& __a = allocator_type())
-		: _M_t(__comp, _Pair_alloc_type(__a))
-		{ _M_t._M_insert_range_unique(__l.begin(), __l.end()); }
+		explicit map(const allocator_type& __a):
+			_M_t(_Pair_alloc_type(__a))
+		{ }
 
-		explicit
-		map(const allocator_type& __a)
-		: _M_t(_Pair_alloc_type(__a)) { }
-
-		map(const map& __m, const allocator_type& __a)
-		: _M_t(__m._M_t, _Pair_alloc_type(__a)) { }
+		map(const map& __m, const allocator_type& __a):
+			_M_t(__m._M_t, _Pair_alloc_type(__a))
+		{ }
 
 		map(map&& __m, const allocator_type& __a)
 		noexcept(is_nothrow_copy_constructible<_Compare>::value
