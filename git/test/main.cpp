@@ -6,7 +6,7 @@
 /*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 22:45:06 by eyohn             #+#    #+#             */
-/*   Updated: 2021/12/26 17:47:05 by eyohn            ###   ########.fr       */
+/*   Updated: 2022/01/02 14:27:25 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int		main(int argc, char** argv){
 	a.insert(std::pair<int, int>(4, 14));
 	a.insert(std::pair<int, int>(5, 15));
 
+
 	std::map<int, int>::iterator	it_01 = a.begin();
 	std::map<int, int>::iterator	it_02 = a.end();
 	while (it_01 != it_02) {
@@ -56,10 +57,17 @@ int		main(int argc, char** argv){
 	std::pair<int, int> b(99, 99);
 	a.insert(it, b);
 
-	it_01 = a.begin();
-	it_02 = a.end();
-	while (it_01 != it_02){
-		std::cout << it_01->first << " => " << it_01->second << std::endl;
-		it_01++;
-	}
+	// it_01 = a.begin();
+	// it_02 = a.end();
+	// while (it_01 != it_02){
+	// 	std::cout << it_01->first << " => " << it_01->second << std::endl;
+	// 	it_01++;
+	// }
+
+	std::map<int, int> bb(a);
+	a.clear();
+	std::cout << " Size = " << bb.size() << std::endl;
+
+	int ll = a.at(1);
+	std::cout << "Value = " << ll << std::endl;
 }

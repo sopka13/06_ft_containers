@@ -6,7 +6,7 @@
 /*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 21:50:16 by eyohn             #+#    #+#             */
-/*   Updated: 2021/12/25 23:11:40 by eyohn            ###   ########.fr       */
+/*   Updated: 2022/01/02 17:21:13 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,12 @@ struct pair {
 		first(x),
 		second(y)
 	{}
+
+	pair<_T1, _T2>(_T1 x):
+		first(x),
+		second()
+	{}
+
 	// pair<_T1, _T2>(const pair<_T1, _T2>& pr):
 	// 	first(pr.first),
 	// 	second(pr.second)

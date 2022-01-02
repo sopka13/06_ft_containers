@@ -6,7 +6,7 @@
 /*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 21:48:39 by eyohn             #+#    #+#             */
-/*   Updated: 2021/12/26 17:17:42 by eyohn            ###   ########.fr       */
+/*   Updated: 2022/01/02 21:43:31 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,234 +70,311 @@ int		main(void) {
 	{
 		std::cout << "\n Constructors test start" << std::endl;
 
-		ft::map<int, int> map_01;
+		// ft::map<int, int> map_01;
+
+		// std::cout << "Size 1 = " << map_01.size() << std::endl;
+		// // std::cout << "Size 2 = " << map_02.size() << std::endl;
+
+		// pair<int, int> p(1, 12);
+		// map_01.insert(p);
+
+		// std::cout << "Size 1 = " << map_01.size() << std::endl;
+		// // std::cout << "Size 2 = " << map_02.size() << std::endl;
+
 		// ft::map<int, int> map_02(map_01);
-		// ft::map<int, int> map_03(map_01.find(3), map_01.end());
+		// pair<int, int> q(0, 12);
+		// map_02.insert(q);
+
+		// std::cout << "Size 1 = " << map_01.size() << std::endl;
+		// std::cout << "Size 2 = " << map_02.size() << std::endl;
+
+		// std::cout << "first = " << (*(map_01.begin())).first << " second = " << (*(map_01.begin())).second << std::endl;
+		// std::cout << "first = " << (*(map_02.begin())).first << " second = " << (*(map_02.begin())).second << std::endl;
+
+
+		// pair<int, int> p_1(1, 12);
+		// pair<int, int> p_2(2, 12);
+		// pair<int, int> p_3(3, 12);
+		// pair<int, int> p_4(4, 12);
+		// pair<int, int> p_5(5, 12);
+		// map_02.insert(p_1);
+		// map_02.insert(p_2);
+		// map_02.insert(p_3);
+		// map_02.insert(p_4);
+		// map_02.insert(p_5);
+		
+		// ft::map<int, int>::iterator begin = map_02.begin();
+		// ft::map<int, int>::iterator end = map_02.end();
+		// while (begin != end){
+		// 	std::cout << begin->first << " => " << begin->second << std::endl;
+		// 	begin++;
+		// }
+
 	}
 	//------Destructor--------
 	{
 		std::cout << "\n Destructor test start" << std::endl;
 
-		ft::map<int, int> map_01;
-		pair<const int, int> p1(1, 11);
-		pair<const int, int> p2(2, 12);
-		pair<const int, int> p3(3, 13);
-		map_01.insert(p1);
-		map_01.insert(p2);
-		// ft::map<int, int>::iterator it = map_01.begin();
-		// std::cout << (*it).second << std::endl;
-		map_01.insert(p3);
-		// map_01.~map();										//sega
+		// ft::map<int, int> map_01;
+		// pair<const int, int> p1(1, 11);
+		// pair<const int, int> p2(2, 12);
+		// pair<const int, int> p3(3, 13);
+		// map_01.insert(p1);
+		// map_01.insert(p2);
+		// // ft::map<int, int>::iterator it = map_01.begin();
+		// // std::cout << (*it).second << std::endl;
+		// map_01.insert(p3);
+		// // map_01.~map();										//sega
 	}
 	//------Element access----
 	{
 		std::cout << "\n Element access test start" << std::endl;
+		
+		ft::map<int, int> map_02;
+
+		pair<int, int> p_1(1, 11);
+		pair<int, int> p_2(2, 12);
+		pair<int, int> p_3(3, 13);
+		pair<int, int> p_4(4, 14);
+		pair<int, int> p_5(5, 15);
+		map_02.insert(p_1);
+		map_02.insert(p_2);
+		map_02.insert(p_3);
+		map_02.insert(p_4);
+		map_02.insert(p_5);
+
+		int kk = map_02.at(3);
+		std::cout << "Value = " << kk << std::endl;
+
+		const int oo = map_02.at(1);
+		std::cout << "Value = " << oo << std::endl;
+
+		ft::map<int, int> map_03(map_02);
+
+		ft::map<char,std::string> mymap;
+
+		mymap['a']="an element";
+		mymap['b']="another element";
+		mymap['c']=mymap['b'];
+
+		std::cout << "mymap['a'] is " << mymap['a'] << '\n';
+		std::cout << "mymap['b'] is " << mymap['b'] << '\n';
+		std::cout << "mymap['c'] is " << mymap['c'] << '\n';
+		std::cout << "mymap['d'] is " << mymap['d'] << '\n';
+
+		std::cout << "mymap now contains " << mymap.size() << " elements.\n";
+
+		ft::map<int, int>	new_map;
+		std::cout << "Size of new_map = " << new_map.size() << std::endl;
+
+		new_map = map_02;
+		std::cout << "Size of new_map = " << new_map.size() << std::endl;
 	}
 	//------Modifiers---------
 	{
 		std::cout << "\n Modifiers test start" << std::endl;
 
-		ft::map<int, int> map_01;
-		pair<const int, int> p1(1, 11);
-		pair<const int, int> p2(2, 12);
-		pair<const int, int> p3(3, 13);
-		map_01.insert(p1);
-		map_01.insert(p2);
-		map_01.insert(p3);
-		// ft::map<int, int>::iterator it_01 = map_01.begin();
-		// map_01.erase(it);
-		// ft::map<int, int>::iterator it_02 = map_01.begin();
-		// ft::map<int, int>::iterator it_03 = map_01.end();
-		// map_01.erase(it_02, it_03);
-		map_01.insert(p1);
-		map_01.insert(p2);
-		map_01.insert(p3);
-		// map_01.erase(1);
-		// map_01.erase(2);
-		// map_01.erase(3);
+		// ft::map<int, int> map_01;
+		// pair<const int, int> p1(1, 11);
+		// pair<const int, int> p2(2, 12);
+		// pair<const int, int> p3(3, 13);
+		// map_01.insert(p1);
+		// map_01.insert(p2);
+		// map_01.insert(p3);
+		// // ft::map<int, int>::iterator it_01 = map_01.begin();
+		// // map_01.erase(it);
+		// // ft::map<int, int>::iterator it_02 = map_01.begin();
+		// // ft::map<int, int>::iterator it_03 = map_01.end();
+		// // map_01.erase(it_02, it_03);
+		// map_01.insert(p1);
+		// map_01.insert(p2);
+		// map_01.insert(p3);
+		// // map_01.erase(1);
+		// // map_01.erase(2);
+		// // map_01.erase(3);
 	}
 	//------Iterators---------
 	{
 		std::cout << "\n Iterators test start" << std::endl;
 
-		ft::map<int, int> map_01;
-		pair<const int, int> p1(1, 11);
-		pair<const int, int> p2(9, 12);
-		pair<const int, int> p3(-3, 13);
-		pair<const int, int> p4(0, 14);
-		map_01.insert(p1);
-		map_01.insert(p2);
-		map_01.insert(p3);
-		map_01.insert(p4);
+		// ft::map<int, int> map_01;
+		// pair<const int, int> p1(1, 11);
+		// pair<const int, int> p2(9, 12);
+		// pair<const int, int> p3(-3, 13);
+		// pair<const int, int> p4(0, 14);
+		// map_01.insert(p1);
+		// map_01.insert(p2);
+		// map_01.insert(p3);
+		// map_01.insert(p4);
 
-		// for (int i = 0; i < 100; ++i){
-		// 	pair<const int, int> p(rand(), i);
-		// 	map_01.insert(p);
+		// // for (int i = 0; i < 100; ++i){
+		// // 	pair<const int, int> p(rand(), i);
+		// // 	map_01.insert(p);
+		// // }
+
+		// // printf("Current size: %lu\n", map_01.size());
+
+		// ft::map<int, int>::iterator					it_01 = map_01.begin();
+		// ft::map<int, int>::iterator					it_02 = map_01.end();
+		// // it_01->first = 933;
+		// // it_01->second = 933;
+		// while (it_01 != it_02){
+		// 	std::cout << it_01->first << " => " << it_01->second << std::endl;
+		// 	it_01++;
 		// }
 
-		// printf("Current size: %lu\n", map_01.size());
+		// ft::map<int, int>::const_iterator			it_03 = map_01.begin();
+		// ft::map<int, int>::const_iterator			it_04 = map_01.end();
+		// // it_03->first = 933;
+		// // it_03->second = 933;
+		// while (it_03 != it_04){
+		// 	std::cout << it_03->first << " => " << it_03->second << std::endl;
+		// 	it_03++;
+		// }
 
-		ft::map<int, int>::iterator					it_01 = map_01.begin();
-		ft::map<int, int>::iterator					it_02 = map_01.end();
-		// it_01->first = 933;
-		// it_01->second = 933;
-		while (it_01 != it_02){
-			std::cout << it_01->first << " => " << it_01->second << std::endl;
-			it_01++;
-		}
+		// ft::map<int, int>::reverse_iterator			it_05 = map_01.rbegin();
+		// ft::map<int, int>::reverse_iterator			it_06 = map_01.rend();
+		// // it_05->first = 933;
+		// // it_05->second = 933;
+		// while (it_05 != it_06){
+		// 	std::cout << it_05->first << " => " << it_05->second << std::endl;
+		// 	it_05++;
+		// }
 
-		ft::map<int, int>::const_iterator			it_03 = map_01.begin();
-		ft::map<int, int>::const_iterator			it_04 = map_01.end();
-		// it_03->first = 933;
-		// it_03->second = 933;
-		while (it_03 != it_04){
-			std::cout << it_03->first << " => " << it_03->second << std::endl;
-			it_03++;
-		}
+		// ft::map<int, int>::const_reverse_iterator	it_07 = map_01.rbegin();
+		// ft::map<int, int>::const_reverse_iterator	it_08 = map_01.rend();
+		// // it_07->first = 933;
+		// // it_07->second = 933;
+		// while (it_07 != it_08){
+		// 	std::cout << it_07->first << " => " << it_07->second << std::endl;
+		// 	it_07++;
+		// }
 
-		ft::map<int, int>::reverse_iterator			it_05 = map_01.rbegin();
-		ft::map<int, int>::reverse_iterator			it_06 = map_01.rend();
-		// it_05->first = 933;
-		// it_05->second = 933;
-		while (it_05 != it_06){
-			std::cout << it_05->first << " => " << it_05->second << std::endl;
-			it_05++;
-		}
+		// std::cout << (int)(it_01 == it_02) << std::endl;
+		// std::cout << (int)(it_03 == it_04) << std::endl;
+		// std::cout << (int)(it_05 == it_06) << std::endl;
+		// std::cout << (int)(it_07 == it_08) << std::endl;
 
-		ft::map<int, int>::const_reverse_iterator	it_07 = map_01.rbegin();
-		ft::map<int, int>::const_reverse_iterator	it_08 = map_01.rend();
-		// it_07->first = 933;
-		// it_07->second = 933;
-		while (it_07 != it_08){
-			std::cout << it_07->first << " => " << it_07->second << std::endl;
-			it_07++;
-		}
+		// std::cout << (int)(it_01 >= it_02) << std::endl;
+		// std::cout << (int)(it_03 >= it_04) << std::endl;
+		// std::cout << (int)(it_05 >= it_06) << std::endl;
+		// std::cout << (int)(it_07 >= it_08) << std::endl;
 
-		std::cout << (int)(it_01 == it_02) << std::endl;
-		std::cout << (int)(it_03 == it_04) << std::endl;
-		std::cout << (int)(it_05 == it_06) << std::endl;
-		std::cout << (int)(it_07 == it_08) << std::endl;
+		// std::cout << (int)(it_01 > it_02) << std::endl;
+		// std::cout << (int)(it_03 > it_04) << std::endl;
+		// std::cout << (int)(it_05 > it_06) << std::endl;
+		// std::cout << (int)(it_07 > it_08) << std::endl;
 
-		std::cout << (int)(it_01 >= it_02) << std::endl;
-		std::cout << (int)(it_03 >= it_04) << std::endl;
-		std::cout << (int)(it_05 >= it_06) << std::endl;
-		std::cout << (int)(it_07 >= it_08) << std::endl;
+		// std::cout << (int)(it_01 <= it_02) << std::endl;
+		// std::cout << (int)(it_03 <= it_04) << std::endl;
+		// std::cout << (int)(it_05 <= it_06) << std::endl;
+		// std::cout << (int)(it_07 <= it_08) << std::endl;
 
-		std::cout << (int)(it_01 > it_02) << std::endl;
-		std::cout << (int)(it_03 > it_04) << std::endl;
-		std::cout << (int)(it_05 > it_06) << std::endl;
-		std::cout << (int)(it_07 > it_08) << std::endl;
+		// std::cout << (int)(it_01 < it_02) << std::endl;
+		// std::cout << (int)(it_03 < it_04) << std::endl;
+		// std::cout << (int)(it_05 < it_06) << std::endl;
+		// std::cout << (int)(it_07 < it_08) << std::endl;
 
-		std::cout << (int)(it_01 <= it_02) << std::endl;
-		std::cout << (int)(it_03 <= it_04) << std::endl;
-		std::cout << (int)(it_05 <= it_06) << std::endl;
-		std::cout << (int)(it_07 <= it_08) << std::endl;
+		// // std::cout << (int)(it_01 == it_03) << std::endl;
+		// // std::cout << (int)(it_01 == it_05) << std::endl;
+		// // std::cout << (int)(it_01 == it_07) << std::endl;
 
-		std::cout << (int)(it_01 < it_02) << std::endl;
-		std::cout << (int)(it_03 < it_04) << std::endl;
-		std::cout << (int)(it_05 < it_06) << std::endl;
-		std::cout << (int)(it_07 < it_08) << std::endl;
+		// // std::cout << (int)(it_03 == it_05) << std::endl;
+		// // std::cout << (int)(it_03 == it_07) << std::endl;
 
-		// std::cout << (int)(it_01 == it_03) << std::endl;
-		// std::cout << (int)(it_01 == it_05) << std::endl;
-		// std::cout << (int)(it_01 == it_07) << std::endl;
-
-		// std::cout << (int)(it_03 == it_05) << std::endl;
-		// std::cout << (int)(it_03 == it_07) << std::endl;
-
-		// std::cout << (int)(it_05 == it_07) << std::endl;
+		// // std::cout << (int)(it_05 == it_07) << std::endl;
 
 	}
 	//------Observers---------
 	{
 		std::cout << "\n Observers test start" << std::endl;
 
-		ft::map<int, int> map_01;
-		pair<const int, int> p1(1, 11);
-		pair<const int, int> p2(2, 12);
-		pair<const int, int> p3(3, 13);
-		map_01.insert(p1);
-		map_01.insert(p2);
-		map_01.insert(p3);
+		// ft::map<int, int> map_01;
+		// pair<const int, int> p1(1, 11);
+		// pair<const int, int> p2(2, 12);
+		// pair<const int, int> p3(3, 13);
+		// map_01.insert(p1);
+		// map_01.insert(p2);
+		// map_01.insert(p3);
 
-		// ft::map<int, int>::key_compare my_compare = map_01.key_comp();
-		// int max_elem = 3;
-		// ft::map<int, int>::iterator it = map_01.begin();
-		// do {
-		// 	std::cout << it->first << " => " << it->second << std::endl;
-		// } while (my_compare((*it++).first ,max_elem));
+		// // ft::map<int, int>::key_compare my_compare = map_01.key_comp();
+		// // int max_elem = 3;
+		// // ft::map<int, int>::iterator it = map_01.begin();
+		// // do {
+		// // 	std::cout << it->first << " => " << it->second << std::endl;
+		// // } while (my_compare((*it++).first ,max_elem));
 
-		// ft::pair<int, int> max_elem = *map_01.rbegin();
-		// it = map_01.begin();
-		// do {
-		// 	std::cout << it->first << " => " << it->second << std::endl;
-		// } while (map_01.value_comp()(*it++, max_elem));
+		// // ft::pair<int, int> max_elem = *map_01.rbegin();
+		// // it = map_01.begin();
+		// // do {
+		// // 	std::cout << it->first << " => " << it->second << std::endl;
+		// // } while (map_01.value_comp()(*it++, max_elem));
 	}
 	//------Capacity----------
 	{
 		std::cout << "\n Capacity test start" << std::endl;
 
-		ft::map<int, int> map_01;
-		std::cout << "Map empty: " <<		map_01.empty() << std::endl;
-		std::cout << "Map size: " <<		map_01.size() << std::endl;
-		std::cout << "Map max_size: " <<	map_01.max_size() << std::endl;
-		pair<const int, int> p1(1, 11);
-		pair<const int, int> p2(2, 12);
-		pair<const int, int> p3(3, 13);
-		map_01.insert(p1);
-		map_01.insert(p2);
-		map_01.insert(p3);
-		std::cout << "Map empty: " <<		map_01.empty() << std::endl;
-		std::cout << "Map size: " <<		map_01.size() << std::endl;
-		std::cout << "Map max_size: " <<	map_01.max_size() << std::endl;
+		// ft::map<int, int> map_01;
+		// std::cout << "Map empty: " <<		map_01.empty() << std::endl;
+		// std::cout << "Map size: " <<		map_01.size() << std::endl;
+		// std::cout << "Map max_size: " <<	map_01.max_size() << std::endl;
+		// pair<const int, int> p1(1, 11);
+		// pair<const int, int> p2(2, 12);
+		// pair<const int, int> p3(3, 13);
+		// map_01.insert(p1);
+		// map_01.insert(p2);
+		// map_01.insert(p3);
+		// std::cout << "Map empty: " <<		map_01.empty() << std::endl;
+		// std::cout << "Map size: " <<		map_01.size() << std::endl;
+		// std::cout << "Map max_size: " <<	map_01.max_size() << std::endl;
 	}
 	//------Operations--------
 	{
 		std::cout << "\n Operations test start" << std::endl;
 
-		ft::map<int, int> map_01;
-		pair<const int, int> p1(1, 11);
-		pair<const int, int> p2(2, 12);
-		pair<const int, int> p3(3, 13);
-		map_01.insert(p1);
-		map_01.insert(p2);
-		map_01.insert(p3);
+		// ft::map<int, int> map_01;
+		// pair<const int, int> p1(1, 11);
+		// pair<const int, int> p2(2, 12);
+		// pair<const int, int> p3(3, 13);
+		// map_01.insert(p1);
+		// map_01.insert(p2);
+		// map_01.insert(p3);
 
-		// ft::map<int, int>						it_01 = map_01.find(2);
-		// ft::map<int, int>::const_iterator		it_02 = map_01.find(2);
-		// size_t									val_01 = map_01.count(2);
-		// ft::map<int, int>::iterator				it_03 = map_01.lower_bound(2);
-		// ft::map<int, int>::const_iterator		it_04 = map_01.lower_bound(2);
-		// ft::map<int, int>::iterator				it_05 = map_01.upper_bound(2);
-		// ft::map<int, int>::const_iterator		it_06 = map_01.upper_bound(2);
-		// ft::pair<iterator,iterator>				p_01 = map_01.equal_range(2);
-		// ft::pair<const_iterator,const_iterator>	p_02 = map_01.equal_range(2);
+		// // ft::map<int, int>						it_01 = map_01.find(2);
+		// // ft::map<int, int>::const_iterator		it_02 = map_01.find(2);
+		// // size_t									val_01 = map_01.count(2);
+		// // ft::map<int, int>::iterator				it_03 = map_01.lower_bound(2);
+		// // ft::map<int, int>::const_iterator		it_04 = map_01.lower_bound(2);
+		// // ft::map<int, int>::iterator				it_05 = map_01.upper_bound(2);
+		// // ft::map<int, int>::const_iterator		it_06 = map_01.upper_bound(2);
+		// // ft::pair<iterator,iterator>				p_01 = map_01.equal_range(2);
+		// // ft::pair<const_iterator,const_iterator>	p_02 = map_01.equal_range(2);
 	}
 	//------Operators---------
 	{
 		std::cout << "\n Operators test start" << std::endl;
 
-		ft::map<int, int> map_01;
-		ft::map<int, int> map_02;
-		pair<const int, int> p1(1, 11);
-		pair<const int, int> p2(2, 12);
-		pair<const int, int> p3(3, 13);
-		map_01.insert(p1);
-		map_01.insert(p2);
-		map_01.insert(p3);
-		pair<const int, int> p11(1, 11);
-		pair<const int, int> p21(2, 12);
-		pair<const int, int> p31(3, 13);
-		map_02.insert(p11);
-		map_02.insert(p21);
-		map_02.insert(p31);
+		// ft::map<int, int> map_01;
+		// ft::map<int, int> map_02;
+		// pair<const int, int> p1(1, 11);
+		// pair<const int, int> p2(2, 12);
+		// pair<const int, int> p3(3, 13);
+		// map_01.insert(p1);
+		// map_01.insert(p2);
+		// map_01.insert(p3);
+		// pair<const int, int> p11(1, 11);
+		// pair<const int, int> p21(2, 12);
+		// pair<const int, int> p31(3, 13);
+		// map_02.insert(p11);
+		// map_02.insert(p21);
+		// map_02.insert(p31);
 
-		// std::cout << "Comapare '==' : " << map_01 == map_02 << std::endl;
-		// std::cout << "Comapare '!=' : " << map_01 != map_02 << std::endl;
-		// std::cout << "Comapare '<' : " << map_01 < map_02 << std::endl;
-		// std::cout << "Comapare '<=' : " << map_01 <= map_02 << std::endl;
-		// std::cout << "Comapare '>' : " << map_01 > map_02 << std::endl;
-		// std::cout << "Comapare '>=' : " << map_01 >= map_02 << std::endl;
+		// // std::cout << "Comapare '==' : " << map_01 == map_02 << std::endl;
+		// // std::cout << "Comapare '!=' : " << map_01 != map_02 << std::endl;
+		// // std::cout << "Comapare '<' : " << map_01 < map_02 << std::endl;
+		// // std::cout << "Comapare '<=' : " << map_01 <= map_02 << std::endl;
+		// // std::cout << "Comapare '>' : " << map_01 > map_02 << std::endl;
+		// // std::cout << "Comapare '>=' : " << map_01 >= map_02 << std::endl;
 	}
 	//------Allocator---------
 	{

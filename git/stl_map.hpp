@@ -6,7 +6,7 @@
 /*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 22:25:26 by eyohn             #+#    #+#             */
-/*   Updated: 2021/12/26 17:54:40 by eyohn            ###   ########.fr       */
+/*   Updated: 2022/01/02 23:36:15 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ namespace ft {
 			_parent(parent),
 			_k(0)
 		{}
-		t_treeElem(t_treeElem* parent): // for _n_node
+		t_treeElem(t_treeElem* parent): // for _n_node and _rn_node
 			_parent(parent),
 			_k(-1)
 		{}
-		t_treeElem():					// for _nn_node
+		t_treeElem():					// for _nn_node and _rnn_node
 			_k(-1)
 		{}
 		~t_treeElem(){}
@@ -46,19 +46,31 @@ namespace ft {
 
 	};
 
+
 	template <class Key, class T, class Compare = less<Key>,
 				class Allocator = std::allocator<t_treeElem<const Key, T> > >
 	class map
 	{
 		t_treeElem<const Key, T>*	_tree;
-		Compare				_compare;
-		Allocator			_al;
-		size_t				_size;
+		Compare						_compare;
+		Allocator					_al;
+		size_t						_size;
 		t_treeElem<const Key, T>*	_n_node;
 		t_treeElem<const Key, T>*	_nn_node;
 		t_treeElem<const Key, T>*	_rn_node;
 		t_treeElem<const Key, T>*	_rnn_node;
 
+		class value_compare{
+			Compare		comp;
+			value_compare(Compare c):
+				comp(c)
+			{}
+
+		public:
+			bool operator() (const pair<const Key, T>& x, const pair<const Key, T>& y) const {
+				return comp(x.first, y.first);
+			};
+		};
 
 	public:
 		typedef Allocator							allocator_type;
@@ -131,13 +143,7 @@ namespace ft {
 							_pointer = _pointer->_parent;
 							while (1) {
 								if (_pointer->_parent == NULL) {
-									if (_map_pointer->_n_node) {
-										_pointer = _map_pointer->_n_node;
-									} else {
-										_map_pointer->_n_node = _map_pointer->_al.allocate(1);
-										_map_pointer->_al.construct(_map_pointer->_n_node, _map_pointer->search_max(_pointer));
-										_pointer = _map_pointer->_n_node;
-									}
+									_pointer = _map_pointer->_n_node;
 									break ;
 								}
 								if (_pointer->_parent->_right == _pointer) {
@@ -150,13 +156,7 @@ namespace ft {
 							}
 						}
 					} else {
-						if (_map_pointer->_n_node) {
-							_pointer = _map_pointer->_n_node;
-						} else {
-							_map_pointer->_n_node = _map_pointer->_al.allocate(1);
-							_map_pointer->_al.construct(_map_pointer->_n_node, _map_pointer->search_max(_pointer));
-							_pointer = _map_pointer->_n_node;
-						}
+						_pointer = _map_pointer->_n_node;
 					}
 				}
 				return *this;
@@ -186,13 +186,7 @@ namespace ft {
 							_pointer = _pointer->_parent;
 							while (1) {
 								if (_pointer->_parent == NULL) {
-									if (_map_pointer->_nn_node) {
-										_pointer = _map_pointer->_nn_node;
-									} else {
-										_map_pointer->_nn_node = _map_pointer->_al.allocate(1);
-										_map_pointer->_al.construct(_map_pointer->_nn_node);
-										_pointer = _map_pointer->_nn_node;
-									}
+									_pointer = _map_pointer->_nn_node;
 									break ;
 								}
 								if (_pointer->_parent->_left == _pointer) {
@@ -207,13 +201,7 @@ namespace ft {
 							_pointer = _pointer->_parent;
 						}
 					} else {
-						if (_map_pointer->_nn_node) {
-							_pointer = _map_pointer->_nn_node;
-						} else {
-							_map_pointer->_nn_node = _map_pointer->_al.allocate(1);
-							_map_pointer->_al.construct(_map_pointer->_nn_node);
-							_pointer = _map_pointer->_nn_node;
-						}
+						_pointer = _map_pointer->_nn_node;
 					}
 				}
 				return *this;
@@ -244,7 +232,7 @@ namespace ft {
 
 		class const_iterator {
 			t_treeElem<const Key, T>*				_pointer;
-			ft::map<Key, T, Compare, Allocator>*	_map_pointer;
+			const ft::map<Key, T, Compare, Allocator>*	_map_pointer;
 
 		public:
 			const_iterator():
@@ -259,6 +247,10 @@ namespace ft {
 				_map_pointer(NULL)
 			{}
 			const_iterator(t_treeElem<const Key, T>* pointer, ft::map<Key, T, Compare, Allocator>*	map_pointer):
+				_pointer(pointer),
+				_map_pointer(map_pointer)
+			{}
+			const_iterator(t_treeElem<const Key, T>* pointer, const ft::map<Key, T, Compare, Allocator>*	map_pointer):
 				_pointer(pointer),
 				_map_pointer(map_pointer)
 			{}
@@ -306,13 +298,7 @@ namespace ft {
 							_pointer = _pointer->_parent;
 							while (1) {
 								if (_pointer->_parent == NULL) {
-									if (_map_pointer->_n_node) {
-										_pointer = _map_pointer->_n_node;
-									} else {
-										_map_pointer->_n_node = _map_pointer->_al.allocate(1);
-										_map_pointer->_al.construct(_map_pointer->_n_node, _map_pointer->search_max(_pointer));
-										_pointer = _map_pointer->_n_node;
-									}
+									_pointer = _map_pointer->_n_node;
 									break ;
 								}
 								if (_pointer->_parent->_right == _pointer) {
@@ -325,13 +311,7 @@ namespace ft {
 							}
 						}
 					} else {
-						if (_map_pointer->_n_node) {
-							_pointer = _map_pointer->_n_node;
-						} else {
-							_map_pointer->_n_node = _map_pointer->_al.allocate(1);
-							_map_pointer->_al.construct(_map_pointer->_n_node, _map_pointer->search_max(_pointer));
-							_pointer = _map_pointer->_n_node;
-						}
+						_pointer = _map_pointer->_n_node;
 					}
 				}
 				return *this;
@@ -361,13 +341,7 @@ namespace ft {
 							_pointer = _pointer->_parent;
 							while (1) {
 								if (_pointer->_parent == NULL) {
-									if (_map_pointer->_nn_node) {
-										_pointer = _map_pointer->_nn_node;
-									} else {
-										_map_pointer->_nn_node = _map_pointer->_al.allocate(1);
-										_map_pointer->_al.construct(_map_pointer->_nn_node);
-										_pointer = _map_pointer->_nn_node;
-									}
+									_pointer = _map_pointer->_nn_node;
 									break ;
 								}
 								if (_pointer->_parent->_left == _pointer) {
@@ -382,13 +356,7 @@ namespace ft {
 							_pointer = _pointer->_parent;
 						}
 					} else {
-						if (_map_pointer->_nn_node) {
-							_pointer = _map_pointer->_nn_node;
-						} else {
-							_map_pointer->_nn_node = _map_pointer->_al.allocate(1);
-							_map_pointer->_al.construct(_map_pointer->_nn_node);
-							_pointer = _map_pointer->_nn_node;
-						}
+						_pointer = _map_pointer->_nn_node;
 					}
 				}
 				return *this;
@@ -440,17 +408,17 @@ namespace ft {
 			t_treeElem<const Key, T>*	get_p() {
 				return (_pointer);
 			}
-			pair<const Key, T>&				operator*(){
+			pair<const Key, T>&			operator*(){
 				return (_pointer->_kv);
 			}
-			iterator_type			operator=(t_treeElem<const Key, T>* pointer) {
+			iterator_type				operator=(t_treeElem<const Key, T>* pointer) {
 				this->_pointer = pointer;
 				return *this;
 			}
-			bool					operator==(iterator_type it) {
+			bool						operator==(iterator_type it) {
 				return this->_pointer == it.get_p();
 			}
-			iterator_type			operator--(int) {
+			iterator_type				operator--(int) {
 				//	1. check current position
 				//	2. if have right
 				//		2.1. rewrite _pointer to _right and return
@@ -477,13 +445,7 @@ namespace ft {
 							_pointer = _pointer->_parent;
 							while (1) {
 								if (_pointer->_parent == NULL) {
-									if (_map_pointer->_rnn_node) {
-										_pointer = _map_pointer->_rnn_node;
-									} else {
-										_map_pointer->_rnn_node = _map_pointer->_al.allocate(1);
-										_map_pointer->_al.construct(_map_pointer->_rnn_node);
-										_pointer = _map_pointer->_rnn_node;
-									}
+									_pointer = _map_pointer->_rnn_node;
 									break ;
 								}
 								if (_pointer->_parent->_right == _pointer) {
@@ -496,18 +458,12 @@ namespace ft {
 							}
 						}
 					} else {
-						if (_map_pointer->_rnn_node) {
-							_pointer = _map_pointer->_rnn_node;
-						} else {
-							_map_pointer->_rnn_node = _map_pointer->_al.allocate(1);
-							_map_pointer->_al.construct(_map_pointer->_rnn_node);
-							_pointer = _map_pointer->_rnn_node;
-						}
+						_pointer = _map_pointer->_rnn_node;
 					}
 				}
 				return *this;
 			}
-			iterator_type			operator++(int) {
+			iterator_type				operator++(int) {
 				//	1. check current position
 				//	2. if have _left
 				//		2.1. rewrite _pointer to _left and return
@@ -532,14 +488,7 @@ namespace ft {
 							_pointer = _pointer->_parent;
 							while (1) {
 								if (_pointer->_parent == NULL) {
-									if (_map_pointer->_rn_node) {
-										_pointer = _map_pointer->_rn_node;
-									} else {
-										_map_pointer->_rn_node = _map_pointer->_al.allocate(1);
-										_map_pointer->_al.construct(_map_pointer->_rn_node, _map_pointer->search_min(_pointer));
-										_pointer = _map_pointer->_rn_node;
-									}
-									break ;
+									_pointer = _map_pointer->_rn_node;
 								}
 								if (_pointer->_parent->_left == _pointer) {
 									_pointer = _pointer->_parent;
@@ -553,30 +502,24 @@ namespace ft {
 							_pointer = _pointer->_parent;
 						}
 					} else {
-						if (_map_pointer->_rn_node) {
-							_pointer = _map_pointer->_rn_node;
-						} else {
-							_map_pointer->_rn_node = _map_pointer->_al.allocate(1);
-							_map_pointer->_al.construct(_map_pointer->_rn_node, _map_pointer->search_min(_pointer));
-							_pointer = _map_pointer->_rn_node;
-						}
+						_pointer = _map_pointer->_rn_node;
 					}
 				}
 				return *this;
 			}
-			bool					operator>(iterator_type it) {
+			bool						operator>(iterator_type it) {
 				return this->_pointer > it.get_p();
 			}
-			bool					operator>=(iterator_type it) {
+			bool						operator>=(iterator_type it) {
 				return this->_pointer >= it.get_p();
 			}
-			bool					operator<(iterator_type it) {
+			bool						operator<(iterator_type it) {
 				return this->_pointer < it.get_p();
 			}
-			bool					operator<=(iterator_type it) {
+			bool						operator<=(iterator_type it) {
 				return this->_pointer <= it.get_p();
 			}
-			bool					operator!=(iterator_type it) {
+			bool						operator!=(iterator_type it) {
 				return this->_pointer != it.get_p();
 			}
 			pair<const Key, T>*			operator->() {
@@ -652,13 +595,7 @@ namespace ft {
 							_pointer = _pointer->_parent;
 							while (1) {
 								if (_pointer->_parent == NULL) {
-									if (_map_pointer->_rnn_node) {
-										_pointer = _map_pointer->_rnn_node;
-									} else {
-										_map_pointer->_rnn_node = _map_pointer->_al.allocate(1);
-										_map_pointer->_al.construct(_map_pointer->_rnn_node);
-										_pointer = _map_pointer->_rnn_node;
-									}
+									_pointer = _map_pointer->_rnn_node;
 									break ;
 								}
 								if (_pointer->_parent->_right == _pointer) {
@@ -671,13 +608,7 @@ namespace ft {
 							}
 						}
 					} else {
-						if (_map_pointer->_rnn_node) {
-							_pointer = _map_pointer->_rnn_node;
-						} else {
-							_map_pointer->_rnn_node = _map_pointer->_al.allocate(1);
-							_map_pointer->_al.construct(_map_pointer->_rnn_node);
-							_pointer = _map_pointer->_rnn_node;
-						}
+						_pointer = _map_pointer->_rnn_node;
 					}
 				}
 				return *this;
@@ -707,13 +638,7 @@ namespace ft {
 							_pointer = _pointer->_parent;
 							while (1) {
 								if (_pointer->_parent == NULL) {
-									if (_map_pointer->_rn_node) {
-										_pointer = _map_pointer->_rn_node;
-									} else {
-										_map_pointer->_rn_node = _map_pointer->_al.allocate(1);
-										_map_pointer->_al.construct(_map_pointer->_rn_node, _map_pointer->search_min(_pointer));
-										_pointer = _map_pointer->_rn_node;
-									}
+									_pointer = _map_pointer->_rn_node;
 									break ;
 								}
 								if (_pointer->_parent->_left == _pointer) {
@@ -728,13 +653,7 @@ namespace ft {
 							_pointer = _pointer->_parent;
 						}
 					} else {
-						if (_map_pointer->_rn_node) {
-							_pointer = _map_pointer->_rn_node;
-						} else {
-							_map_pointer->_rn_node = _map_pointer->_al.allocate(1);
-							_map_pointer->_al.construct(_map_pointer->_rn_node, _map_pointer->search_min(_pointer));
-							_pointer = _map_pointer->_rn_node;
-						}
+						_pointer = _map_pointer->_rn_node;
 					}
 				}
 				return *this;
@@ -772,14 +691,75 @@ namespace ft {
 			_nn_node(NULL),
 			_rn_node(NULL),
 			_rnn_node(NULL)
-		{}
+		{
+			_n_node = _al.allocate(1);
+			_al.construct(_n_node, search_max(_tree));
 
-		// template <class InputIterator>
-		// map (InputIterator first, InputIterator last,
-		// 	const key_compare& comp = key_compare(),
-		// 	const allocator_type& alloc = allocator_type());
+			_rn_node = _al.allocate(1);
+			_al.construct(_rn_node, search_min(_tree));
 
-		// map (const map& x);
+			_nn_node = _al.allocate(1);
+			_al.construct(_nn_node);
+
+			_rnn_node = _al.allocate(1);
+			_al.construct(_rnn_node);
+		}
+
+		template <class InputIterator>
+		map (InputIterator first, InputIterator last,
+			const key_compare& comp = key_compare(),
+			const allocator_type& alloc = allocator_type()):
+				_tree(NULL),
+				_compare(comp),
+				_al(alloc),
+				_size(0)
+			{
+				_n_node = _al.allocate(1);
+				_al.construct(_n_node, search_max(_tree));
+
+				_rn_node = _al.allocate(1);
+				_al.construct(_rn_node, search_min(_tree));
+
+				_nn_node = _al.allocate(1);
+				_al.construct(_nn_node);
+
+				_rnn_node = _al.allocate(1);
+				_al.construct(_rnn_node);
+
+				while (first != last){
+					pair<Key, T> f(first->first, first->second);
+					insert(f);
+					first++;
+				}
+			}
+
+		map (const map& x):
+			_tree(NULL),
+			_compare(x._compare),
+			_al(x._al),
+			_size(0)
+		{
+			_n_node = _al.allocate(1);
+			_al.construct(_n_node, search_max(_tree));
+
+			_rn_node = _al.allocate(1);
+			_al.construct(_rn_node, search_min(_tree));
+
+			_nn_node = _al.allocate(1);
+			_al.construct(_nn_node);
+
+			_rnn_node = _al.allocate(1);
+			_al.construct(_rnn_node);
+
+			const_iterator	begin = x.begin();
+			const_iterator	end = x.end();
+
+			while (begin != end && x.size() != 0){
+				pair<Key, T> f(begin->first, begin->second);
+				insert(f);
+				begin++;
+			}
+		}
 
 		~map(){
 			//	1. if left == null
@@ -836,10 +816,25 @@ namespace ft {
 			}
 		}
 
-		// map& operator=( const map& other );
+		map& operator=( const map& other ){
+			if (&other != this){
+				clear();
+				_compare = other.key_comp();
+				_al = other.get_allocator();
+				const_iterator	begin = other.begin();
+				const_iterator	end = other.end();
+				while (begin != end && other.size() != 0){
+					pair<Key, T> f(begin->first, begin->second);
+					insert(f);
+					begin++;
+				}
+				updateNullNodes();
+			}
+			return *this;
+		}
 
 	private:
-		t_treeElem<const Key, T>*		search(Key key) {
+		t_treeElem<const Key, T>*		search(Key key) const {
 			// Search Key in tree
 			// while (1)
 			//		1. if key == node_key
@@ -951,7 +946,9 @@ namespace ft {
 			}
 		}
 
-		t_treeElem<const Key, T>*		search_max(t_treeElem<const Key, T>* p) {
+		t_treeElem<const Key, T>*		search_max(t_treeElem<const Key, T>* p) const {
+			if (!p)
+				return p;
 			while (1) {
 				if (p->_right) {
 					p = p->_right;
@@ -962,7 +959,9 @@ namespace ft {
 			return p;
 		}
 
-		t_treeElem<const Key, T>*		search_min(t_treeElem<const Key, T>* p) {
+		t_treeElem<const Key, T>*		search_min(t_treeElem<const Key, T>* p) const {
+			if (!p)
+				return p;
 			while (1) {
 				if (p->_left) {
 					p = p->_left;
@@ -987,11 +986,33 @@ namespace ft {
 			}
 		}
 
+		void							updateNullNodes() {
+			_n_node->_parent = search_max(_tree);
+			_rn_node->_parent = search_min(_tree);
+		}
+
 	public:
 		// Element access
-		// T&							at( const Key& key );
-		// const T&						at( const Key& key ) const;
-		// T&							operator[]( const Key& key );
+		T&								at( const Key& key ){
+			t_treeElem<const Key, T>*	ret = search(key);
+			if (!ret)
+				throw std::out_of_range("key not found");
+			return (ret->_kv.second);
+		}
+		const T&						at( const Key& key ) const{
+			t_treeElem<const Key, T>*	ret = search(key);
+			if (!ret)
+				throw std::out_of_range("key not found");
+			return (ret->_kv.second);
+		}
+		T&								operator[]( const Key& key ){
+			t_treeElem<const Key, T>*	ret = search(key);
+			if (!ret){
+				pair<Key, T>	in(key);
+				return (insert(in).first)->second;
+			}
+			return ret->_kv.second;
+		}
 
 		// Modifiers:
 		pair<iterator, bool>			insert( const pair<const Key, T>& value ){
@@ -1010,6 +1031,7 @@ namespace ft {
 				_size++;								// ++ size tree
 				iterator_type it(_tree, this);
 				pair<iterator_type, bool> ret(it, true);
+				updateNullNodes();
 				return ret;
 			} else {
 				// If tree is non free
@@ -1045,6 +1067,7 @@ namespace ft {
 							_size++;										// ++ size tree
 							iterator_type it2((it.get_p())->_left, this);
 							pair<iterator_type, bool> ret(it2, true);
+							updateNullNodes();
 							return ret;
 						}
 					} else {
@@ -1058,15 +1081,63 @@ namespace ft {
 							_size++;										// ++ size tree
 							iterator_type it2((it.get_p())->_right, this);
 							pair<iterator_type, bool> ret(it2, true);
+							updateNullNodes();
 							return ret;
 						}
 					}
 				}
 			}
 		}
-		// iterator						insert( iterator hint, const value_type& value );
-		// template< class InputIt >
-		// void							insert( InputIt first, InputIt last );
+		iterator						insert( iterator hint, const value_type& value ){
+			// 1. Search this Key
+			// 2. If tree is free
+			// 3. Check current hint iterator for left and right elems and conpare
+			// 4. If have fine positions
+			//	4.1. Add elem in this positions
+			// 5. else
+			//	5.1. Add elem with insert func
+			t_treeElem<const Key, T>*	 pp = search(value.first);
+			if (pp) {
+				iterator_type it(pp, this);
+				return it;
+			}
+			if (!_size) {
+				_tree = _al.allocate(1);				// allocate memory for 1 element
+				_al.construct(_tree, value);			// construct element
+				rewrite_k(_tree);
+				_size++;								// ++ size tree
+				iterator_type it(_tree, this);
+				updateNullNodes();
+				return it;
+			} else {
+				if (hint.get_p()->_left == NULL && _compare(value->first, hint->first)){
+					hint.get_p()->_left = _al.allocate(1);
+					_al.construct(hint.get_p()->_left, value)
+					rewrite_k(hint.get_p()->_left);
+					_size++;
+					iterator_type it(hint.get_p()->_left, this);
+					updateNullNodes();
+					return it;
+				} else if (hint.get_p()->_right == NULL && _compare(hint->first, value->first)) {
+					hint.get_p()->_right = _al.allocate(1);
+					_al.construct(hint.get_p()->_right, value)
+					rewrite_k(hint.get_p()->_right);
+					_size++;
+					iterator_type it(hint.get_p()->_right, this);
+					updateNullNodes();
+					return it;
+				} else {
+					insert(value);
+				}
+			}
+		}
+		template< class InputIt >
+		void							insert( InputIt first, InputIt last ){
+			while (first != last){
+				insert(*first);
+				first++;
+			}
+		}
 		void							erase( iterator position ){
 			// 1. if only one elem in tree
 			//		1.1. destructor
@@ -1077,7 +1148,7 @@ namespace ft {
 			//			2.1.1. have left and right
 			//				2.1.1.1. compare left _k and right _k
 			//				2.1.1.2. search max or min elements
-			//				2.1.1.3. have child elemtnts
+			//				2.1.1.3. have child elements
 			//					2.1.1.3.1. rewrite child parent pointer
 			//					2.1.1.3.2. rewrite parent child pointer
 			//					2.1.1.3.3. rewrite new position pointers (child, parent)
@@ -1110,6 +1181,7 @@ namespace ft {
 				_al.destroy(position.get_p());
 				_al.deallocate(position.get_p(), sizeof(t_treeElem<const Key, T>));
 				_size--;
+				updateNullNodes();
 				return ;
 			} else {
 				t_treeElem<const Key, T>*		left = NULL;
@@ -1161,17 +1233,28 @@ namespace ft {
 						_al.destroy(position.get_p());
 						_al.deallocate(position.get_p(), sizeof(t_treeElem<const Key, T>));
 						_size--;
+						updateNullNodes();
 						return ;
 					} else if ((position.get_p())->_left) {
 						if ((position.get_p())->_parent->_left == position.get_p())
 							(position.get_p())->_parent->_left = (position.get_p())->_left;
 						else
 							(position.get_p())->_parent->_right = (position.get_p())->_left;
+						_al.destroy(position.get_p());
+						_al.deallocate(position.get_p(), sizeof(t_treeElem<const Key, T>));
+						_size--;
+						updateNullNodes();
+						return ;
 					} else {
 						if ((position.get_p())->_parent->_left == position.get_p())
 							(position.get_p())->_parent->_left = (position.get_p())->_right;
 						else
 							(position.get_p())->_parent->_right = (position.get_p())->_right;
+						_al.destroy(position.get_p());
+						_al.deallocate(position.get_p(), sizeof(t_treeElem<const Key, T>));
+						_size--;
+						updateNullNodes();
+						return ;
 					}
 				} else {
 					if ((position.get_p())->_parent->_left == position.get_p())
@@ -1182,216 +1265,60 @@ namespace ft {
 					_al.destroy(position.get_p());
 					_al.deallocate(position.get_p(), sizeof(t_treeElem<const Key, T>));
 					_size--;
+					updateNullNodes();
 					return ;
 				}
 			}
 
-			// t_treeElem<const Key, T>*		left = NULL;
-			// t_treeElem<const Key, T>*		right = NULL;
-			// t_treeElem<const Key, T>*		parent = NULL;
-			// if (position.get_p()->left)
-			// 	left = position.get_p()->left;
-			// if (position.get_p()->right)
-			// 	right = position.get_p()->right;
-			// if (position.get_p()->parent)
-			// 	parent = position.get_p()->parent;
-			// // 3. rewrite parent address
-			// if (parent){
-			// 	// 3.1. Check have parent
-			// 	// 3.2. Check have left and right
-			// 	if (left && right){								// if left and right != NULL
-			// 		// 3.2.1. get _k from _left and _right
-			// 		// 3.2.2. select an item for replace
-			// 		if (abs(left->_k) >= abs(right->_k)){			// left k >= right k
-			// 			if (parent->_left == position.get_p()){			// if left tree
-			// 				// search max elem
-			// 				t_treeElem<const Key, T>*		new_this = search_max(position);
-			// 				// rewrite max elem parent pointer
-			// 				if (new_this->_left){
-			// 					new_this->_parent->_right = new_this->_left;
-			// 				} else
-			// 					new_this->_parent->_right = NULL;
-			// 				t_treeElem<const Key, T>*		temp = new_this->_parent;
-			// 				// install max elem in current position
-			// 				new_this->_parent = parent;
-			// 				if (parent->_left == position.get_p())
-			// 					parent->_left = new_this;
-			// 				else
-			// 					parent->_right = new_this;
-			// 				new_this->_left = left;
-			// 				left->_parent = new_this;
-			// 				new_this->_right = right;
-			// 				right->_parent = new_this;
-			// 				// rewrite _k
-			// 				rewrite_k(temp);
-			// 			} else {										// if right tree
-			// 				// search min elem
-			// 				t_treeElem<const Key, T>*		new_this = search_min(position);
-			// 				// rewrite min elem parent pointer
-			// 				if (new_this->_right){
-			// 					new_this->_parent->_left = new_this->_right;
-			// 				} else
-			// 					new_this->_parent->_left = NULL;
-			// 				t_treeElem<const Key, T>*		temp = new_this->_parent;
-			// 				// install min elem in current position
-			// 				new_this->_parent = parent;
-			// 				if (parent->_left == position.get_p())
-			// 					parent->_left = new_this;
-			// 				else
-			// 					parent->_right = new_this;
-			// 				new_this->_left = left;
-			// 				left->_parent = new_this;
-			// 				new_this->_right = right;
-			// 				right->_parent = new_this;
-			// 				// rewrite _k
-			// 				rewrite_k(temp);
-			// 			}
-			// 		} else {										// right k > left k
-			// 			if (parent->_left == position.get_p()){			// if left tree
-			// 				// search max elem
-			// 				t_treeElem<const Key, T>*		new_this = search_max(position);
-			// 				// rewrite max elem parent pointer
-			// 				if (new_this->_left){
-			// 					new_this->_parent->_right = new_this->_left;
-			// 				} else
-			// 					new_this->_parent->_right = NULL;
-			// 				t_treeElem<const Key, T>*		temp = new_this->_parent;
-			// 				// install max elem in current position
-			// 				new_this->_parent = parent;
-			// 				if (parent->_left == position.get_p())
-			// 					parent->_left = new_this;
-			// 				else
-			// 					parent->_right = new_this;
-			// 				new_this->_left = left;
-			// 				left->_parent = new_this;
-			// 				new_this->_right = right;
-			// 				right->_parent = new_this;
-			// 				// rewrite _k
-			// 				rewrite_k(temp);
-			// 			} else {										// if right tree
-			// 				// search min elem
-			// 				t_treeElem<const Key, T>*		new_this = search_min(position);
-			// 				// rewrite min elem parent pointer
-			// 				if (new_this->_right){
-			// 					new_this->_parent->_left = new_this->_right;
-			// 				} else
-			// 					new_this->_parent->_left = NULL;
-			// 				t_treeElem<const Key, T>*		temp = new_this->_parent;
-			// 				// install min elem in current position
-			// 				new_this->_parent = parent;
-			// 				if (parent->_left == position.get_p())
-			// 					parent->_left = new_this;
-			// 				else
-			// 					parent->_right = new_this;
-			// 				new_this->_left = left;
-			// 				left->_parent = new_this;
-			// 				new_this->_right = right;
-			// 				right->_parent = new_this;
-			// 				// rewrite _k
-			// 				rewrite_k(temp);
-			// 			}
-			// 		}
-			// 	} else if (left){								// if right == NULL
-			// 		// 3.2.2.
-			// 		// search max elem
-			// 		t_treeElem<const Key, T>*		new_this = search_max(position);
-			// 		// rewrite max elem parent pointer
-			// 		if (new_this->_left){
-			// 			new_this->_parent->_right = new_this->_left;
-			// 		} else
-			// 			new_this->_parent->_right = NULL;
-			// 		t_treeElem<const Key, T>*		temp = new_this->_parent;
-			// 		// install max elem in current position
-			// 		new_this->_parent = parent;
-			// 		if (parent->_left == position.get_p())
-			// 			parent->_left = new_this;
-			// 		else
-			// 			parent->_right = new_this;
-			// 		new_this->_left = left;
-			// 		left->_parent = new_this;
-			// 		new_this->_right = right;
-			// 		right->_parent = new_this;
-			// 		// rewrite _k
-			// 		rewrite_k(temp);
-			// 	} else if (right) {								// if left == NULL
-			// 		// 3.2.3.
-			// 		// search min elem
-			// 		t_treeElem<const Key, T>*		new_this = search_min(position);
-			// 		// rewrite min elem parent pointer
-			// 		if (new_this->_right){
-			// 			new_this->_parent->_left = new_this->_right;
-			// 		} else
-			// 			new_this->_parent->_left = NULL;
-			// 		t_treeElem<const Key, T>*		temp = new_this->_parent;
-			// 		// install min elem in current position
-			// 		new_this->_parent = parent;
-			// 		if (parent->_left == position.get_p())
-			// 			parent->_left = new_this;
-			// 		else
-			// 			parent->_right = new_this;
-			// 		new_this->_left = left;
-			// 		left->_parent = new_this;
-			// 		new_this->_right = right;
-			// 		right->_parent = new_this;
-			// 		// rewrite _k
-			// 		rewrite_k(temp);
-			// 	} else {										// if left and right == NULL
-			// 		// 3.2.4.1. parent._left or _right = NULL
-			// 		// 3.2.4.2. parent _k += -1
-			// 		if (parent->_left == position.get_p()){
-			// 			parent->_left = NULL;
-			// 			parent->_k += 1
-			// 		}
-			// 		else {
-			// 			parent->_right = NULL;
-			// 			parent->_k += -1
-			// 		}
-			// 	}
-			// }
-			// // 4. rewrite left elem address
-			// // 5. rewrite right elem address
-			// // 6. check balance
-			// // 7. rewrite _size
-			// // 8. rewrite iterator position
-			// // Search for the item you want and take it from tree
-			// t_treeElem<const Key, T>* new_this;
-			// if (abs(left->_k) >= abs(right->_k)){		// this is left tree
-			// 	new_this = search_max(position.get_p());
-			// 	if (new_this->_left)
-			// 		new_this->_parent->_right = new_this->_left;
-			// 	else
-			// 		new_this->_parent->_right = NULL;
-			// } else {									// this is rigth tree
-			// 	new_this = search_min(position.get_p());
-			// 	if (new_this->_right)
-			// 		new_this->_parent->_left = new_this->_right;
-			// 	else
-			// 		new_this->_parent->_left = NULL;
-			// }
-			// // Change elements
-			// t_treeElem<const Key, T>*		temp = new_this->_parent;
-			// new_this->_parent = parent;
-			// if (parent->_left == position.get_p())
-			// 	parent->_left = new_this;
-			// else
-			// 	parent->_right = new_this;
-			// new_this->_left = left;
-			// left->_parent = new_this;
-			// new_this->_right = right;
-			// right->_parent = new_this;
-			// // Rewrite _k and rebalanse
-			// rewrite_k(temp);
-			// // 1. Start destructor
-			// _al.destroy(position.get_p());
-			// // 2. Start deallocate
-			// _al.deallocate(position.get_p(), sizeof(t_treeElem<const Key, T>));
-			// _size--;
 		}
-		// void							erase( iterator first, iterator last );
-		// size_type					erase( const key_type& key );
-		// void							swap( map& other );
-		// void							clear();
-		void less() {
+		void							erase( iterator first, iterator last ){
+			while (first != last){
+				erase(first);
+				first++;
+			}
+		}
+		size_type						erase( const key_type& key ){
+			t_treeElem<const Key, T>* pp = search(key);
+			if (!pp)
+				return 0;
+			iterator_type p(pp);
+			erase(pp);
+			return 1;
+		}
+		void							swap( map& other ){
+			t_treeElem<const Key, T>*	temp = other._tree;
+			other._tree = _tree;
+			_tree = temp;
+
+			size_t	temp = other._size;
+			other._size = _size;
+			_size = temp;
+
+			temp = other._n_node;
+			other._n_node = _n_node;
+			_n_node = temp;
+
+			temp = other._nn_node;
+			other._nn_node = _nn_node;
+			_nn_node = temp;
+
+			temp = other._rn_node;
+			other._rn_node = _rn_node;
+			_rn_node = temp;
+
+			temp = other._rnn_node;
+			other._rnn_node = _rnn_node;
+			_rnn_node = temp;
+		}
+		void							clear(){
+			iterator		begin = this->begin();
+			iterator		end = this->end();
+			while (begin != end && _size != 0){
+				erase(begin);
+				begin++;
+			}
+		}
+		void							less() {
 			std::cout << _compare(_tree->_key, _tree->_value) << std::endl;
 		}
 
@@ -1410,19 +1337,76 @@ namespace ft {
 		}
 
 		// Observers:
-		// key_compare					key_comp() const;
-		// map::value_compare			value_comp() const;
+		key_compare						key_comp() const{
+			return _compare;
+		}
+		value_compare					value_comp() const{
+			return value_comp(_compare);
+		}
 
 		// Operations:
-		// iterator						find( const Key& key );
-		// const_iterator				find( const Key& key ) const;
-		// size_type					count( const Key& key ) const;
-		// iterator						lower_bound( const Key& key );
-		// const_iterator				lower_bound( const Key& key ) const;
-		// iterator						upper_bound( const Key& key );
-		// const_iterator				upper_bound( const Key& key ) const;
-		// pair<iterator,iterator>				equal_range( const Key& key );
-		// pair<const_iterator,const_iterator>	equal_range( const Key& key ) const;
+		iterator						find( const Key& key ){
+			t_treeElem<const Key, T>* pp = search(key);
+			if (!pp)
+				return end();
+			iterator_type ff(pp);
+			return ff;
+		}
+		const_iterator				find( const Key& key ) const{
+			t_treeElem<const Key, T>* pp = search(key);
+			if (!pp)
+				return end();
+			const_iterator_type ff(pp);
+			return ff;
+		}
+		size_type					count( const Key& key ) const{
+			t_treeElem<const Key, T>* pp = search(key);
+			if (!pp)
+				return 0;
+			return 1;
+		}
+		iterator						lower_bound( const Key& key ){
+			iterator_type	begin = begin();
+			iterator_type	end = end();
+			while(begin != end && _compare(begin->first, key))
+				begin++;
+			return begin;
+		}
+		const_iterator				lower_bound( const Key& key ) const{
+			const_iterator_type	begin = begin();
+			const_iterator_type	end = end();
+			while(begin != end && _compare(begin->first, key))
+				begin++;
+			return begin;
+		}
+		iterator						upper_bound( const Key& key ){
+			iterator_type	begin = begin();
+			iterator_type	end = end();
+			while(begin != end && _compare(begin->first, key))
+				begin++;
+			(begin == end) ? begin : begin++;
+			return begin;
+		}
+		const_iterator				upper_bound( const Key& key ) const{
+			const_iterator_type	begin = begin();
+			const_iterator_type	end = end();
+			while(begin != end && _compare(begin->first, key))
+				begin++;
+			(begin == end) ? begin : begin++;
+			return begin;
+		}
+		pair<iterator,iterator>				equal_range( const Key& key ){
+			iterator_type f_1 = lower_bound(key);
+			iterator_type f_2 = upper_bound(key);
+			pair<iterator_type, iterator_type> pp(f_1, f_2);
+			return pp;
+		}
+		pair<const_iterator,const_iterator>	equal_range( const Key& key ) const{
+			const_iterator_type f_1 = lower_bound(key);
+			const_iterator_type f_2 = upper_bound(key);
+			pair<const_iterator_type, const_iterator_type> pp(f_1, f_2);
+			return pp;
+		}
 
 		// Allocator:
 		Allocator						get_allocator() const{
@@ -1437,22 +1421,10 @@ namespace ft {
 			return const_iterator(search_min(_tree), this);
 		}
 		iterator						end(){
-			if (_n_node) {
-				return iterator(_n_node, this);
-			} else {
-				_n_node = _al.allocate(1);
-				_al.construct(_n_node, search_max(_tree));
-				return iterator(_n_node, this);
-			}
+			return iterator(_n_node, this);
 		}
 		const_iterator					end() const {
-			if (_n_node) {
-				return const_iterator(_n_node, this);
-			} else {
-				_n_node = _al.allocate(1);
-				_al.construct(_n_node, search_max(_tree));
-				return const_iterator(_n_node, this);
-			}
+			return const_iterator(_n_node, this);
 		}
 		reverse_iterator				rbegin(){
 			return reverse_iterator(search_max(_tree), this);
@@ -1461,22 +1433,10 @@ namespace ft {
 			return const_reverse_iterator(search_max(_tree), this);
 		}
 		reverse_iterator				rend(){
-			if (_rn_node) {
-				return reverse_iterator(_rn_node, this);
-			} else {
-				_rn_node = _al.allocate(1);
-				_al.construct(_rn_node, search_min(_tree));
-				return reverse_iterator(_rn_node, this);
-			}
+			return reverse_iterator(_rn_node, this);
 		}
 		const_reverse_iterator			rend() const{
-			if (_rnn_node) {
-				return const_reverse_iterator(_rnn_node, this);
-			} else {
-				_rnn_node = _al.allocate(1);
-				_al.construct(_rnn_node, search_min(_tree));
-				return const_reverse_iterator(_rnn_node, this);
-			}
+			return const_reverse_iterator(_rnn_node, this);
 		}
 	};
 
