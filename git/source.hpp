@@ -6,7 +6,7 @@
 /*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 21:50:16 by eyohn             #+#    #+#             */
-/*   Updated: 2022/01/02 17:21:13 by eyohn            ###   ########.fr       */
+/*   Updated: 2022/01/03 10:40:48 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 */
 
 #pragma once
+namespace ft {
 
 // class iterator{
 	
@@ -82,17 +83,17 @@ struct pair {
 		first(x),
 		second()
 	{}
-
-	// pair<_T1, _T2>(const pair<_T1, _T2>& pr):
-	// 	first(pr.first),
-	// 	second(pr.second)
-	// {}
-	pair<_T1, _T2> make_pair(_T1 x, _T2 y)
-	{ return pair<_T1, _T2>(x, y); }
+	
 	operator pair<const _T1, _T2>() {
 		return pair<const _T1, _T2>(this->first, this->second);
 	}
 };
+
+	template<class _T1, class _T2>
+	pair<_T1, _T2> make_pair(_T1 x, _T2 y){
+		return pair<_T1, _T2>(x, y);
+	}
+
 template<typename _T1, typename _T2>
 bool operator==(const pair<_T1, _T2>& __x, const pair<_T1, _T2>& __y)
 { return __x.first == __y.first && __x.second == __y.second; }
@@ -125,3 +126,5 @@ template <class T> struct less : binary_function <T,T,bool> {
 		return x<y;
 	}
 };
+
+}
