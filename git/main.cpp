@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
+/*   By: eyohn <eyohn@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 21:48:39 by eyohn             #+#    #+#             */
-/*   Updated: 2022/01/04 21:34:13 by eyohn            ###   ########.fr       */
+/*   Updated: 2022/01/05 18:24:21 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,16 @@
 // #include "vector.hpp"
 // #include <stdio.h>
 
+// template< typename T1, typename T2>
+// class fff: public ft::map{
+// 		T1	value_1;
+// 		T2	value_2;
+
+// 	public:
+// 		fff(){}
+// 		~fff(){}
+// };
+
 // int		main(void) {
 
 // 	std::cout << "\n ### ### ### ### ### ### ### ### ### ### ### ### ### ###" << std::endl;
@@ -74,6 +84,8 @@
 // 		std::cout << "\n ### ### ### ### ### Constructors test start ### ### ### ### ### " << std::endl;
 
 // 		ft::map<int, int> map_01;									// first
+
+// 		// fff<int, int> p = map_01;
 
 // 		std::cout << "Size 1 = " << map_01.size() << std::endl;
 // 		map_01.insert(ft::make_pair(4, 12));
@@ -633,6 +645,8 @@ int main(int argc, char** argv) {
 	MutantStack<char> iterable_stack;
 	for (char letter = 'a'; letter <= 'z'; letter++)
 		iterable_stack.push(letter);
+
+	// MutantStack<char>::iterator it = iterable_stack.begin();
 	for (MutantStack<char>::iterator it = iterable_stack.begin(); it != iterable_stack.end(); it++)
 	{
 		std::cout << *it;

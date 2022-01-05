@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
+/*   By: eyohn <eyohn@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 22:25:26 by eyohn             #+#    #+#             */
-/*   Updated: 2022/01/04 18:00:41 by eyohn            ###   ########.fr       */
+/*   Updated: 2022/01/05 17:56:03 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1438,9 +1438,9 @@ namespace ft {
 				begin++;
 			}
 		}
-		void							less() {
-			std::cout << _compare(_tree->_key, _tree->_value) << std::endl;
-		}
+		// void							less() {
+		// 	std::cout << _compare(_tree->_key, _tree->_value) << std::endl;
+		// }
 
 		// Capacity:
 		bool							empty() const {

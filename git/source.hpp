@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   source.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
+/*   By: eyohn <eyohn@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 21:50:16 by eyohn             #+#    #+#             */
-/*   Updated: 2022/01/03 10:40:48 by eyohn            ###   ########.fr       */
+/*   Updated: 2022/01/05 09:14:50 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,114 +17,119 @@
 #pragma once
 namespace ft {
 
-// class iterator{
-	
-// public:
+	// class iterator{
+		
+	// public:
 
-// };
+	// };
 
-// class iterator_trails{
+	// class iterator_trails{
 
-// public:
+	// public:
 
-// };
+	// };
 
-// class reverse_iterator{
+	// class reverse_iterator{
 
-// public:
+	// public:
 
-// };
+	// };
 
-class enable_if{
+	class enable_if{
 
-public:
+	public:
 
-};
+	};
 
-class is_integral{
+	class is_integral{
 
-public:
+	public:
 
-};
+	};
 
-class equal{
+	class equal{
 
-public:
+	public:
 
-};
+	};
 
-class Lexicographical_compare{
+	class Lexicographical_compare{
 
-public:
+	public:
 
-};
+	};
 
-template<class _T1, class _T2>
-struct pair {
-	_T1 first;
-	_T2 second;
-
-	pair():
-		first(),
-		second()
-	{}
-
-	pair(pair<_T1, _T2> const & pr):
-		first(pr.first),
-		second(pr.second)
-	{}
-
-	pair<_T1, _T2>(_T1 x, _T2 y):
-		first(x),
-		second(y)
-	{}
-
-	pair<_T1, _T2>(_T1 x):
-		first(x),
-		second()
-	{}
-	
-	operator pair<const _T1, _T2>() {
-		return pair<const _T1, _T2>(this->first, this->second);
+	template<class T1, class T2>
+	int	max(T1 x, T2 y){
+		return (x > y) ? x : y;
 	}
-};
+
+	template<class _T1, class _T2>
+	struct pair {
+		_T1 first;
+		_T2 second;
+
+		pair():
+			first(),
+			second()
+		{}
+
+		pair(pair<_T1, _T2> const & pr):
+			first(pr.first),
+			second(pr.second)
+		{}
+
+		pair<_T1, _T2>(_T1 x, _T2 y):
+			first(x),
+			second(y)
+		{}
+
+		pair<_T1, _T2>(_T1 x):
+			first(x),
+			second()
+		{}
+		
+		operator pair<const _T1, _T2>() {
+			return pair<const _T1, _T2>(this->first, this->second);
+		}
+	};
 
 	template<class _T1, class _T2>
 	pair<_T1, _T2> make_pair(_T1 x, _T2 y){
-		return pair<_T1, _T2>(x, y);
-	}
+			return pair<_T1, _T2>(x, y);
+		}
 
-template<typename _T1, typename _T2>
-bool operator==(const pair<_T1, _T2>& __x, const pair<_T1, _T2>& __y)
-{ return __x.first == __y.first && __x.second == __y.second; }
-template<typename _T1, typename _T2>
-bool operator!=(const pair<_T1, _T2>& __x, const pair<_T1, _T2>& __y)
-{ return !(__x == __y); }
-template<typename _T1, typename _T2>
-bool operator<(const pair<_T1, _T2>& __x, const pair<_T1, _T2>& __y)
-{ return __x.first < __y.first
-		|| (!(__y.first < __x.first) && __x.second < __y.second); }
-template<typename _T1, typename _T2>
-bool operator<=(const pair<_T1, _T2>& __x, const pair<_T1, _T2>& __y)
-{ return !(__y < __x); }
-template<typename _T1, typename _T2>
-bool operator>(const pair<_T1, _T2>& __x, const pair<_T1, _T2>& __y)
-{ return __y < __x; }
-template<typename _T1, typename _T2>
-bool operator>=(const pair<_T1, _T2>& __x, const pair<_T1, _T2>& __y)
-{ return !(__x < __y); }
+	template<typename _T1, typename _T2>
+	bool operator==(const pair<_T1, _T2>& __x, const pair<_T1, _T2>& __y)
+	{ return __x.first == __y.first && __x.second == __y.second; }
+	template<typename _T1, typename _T2>
+	bool operator!=(const pair<_T1, _T2>& __x, const pair<_T1, _T2>& __y)
+	{ return !(__x == __y); }
+	template<typename _T1, typename _T2>
+	bool operator<(const pair<_T1, _T2>& __x, const pair<_T1, _T2>& __y)
+	{ return __x.first < __y.first
+			|| (!(__y.first < __x.first) && __x.second < __y.second); }
+	template<typename _T1, typename _T2>
+	bool operator<=(const pair<_T1, _T2>& __x, const pair<_T1, _T2>& __y)
+	{ return !(__y < __x); }
+	template<typename _T1, typename _T2>
+	bool operator>(const pair<_T1, _T2>& __x, const pair<_T1, _T2>& __y)
+	{ return __y < __x; }
+	template<typename _T1, typename _T2>
+	bool operator>=(const pair<_T1, _T2>& __x, const pair<_T1, _T2>& __y)
+	{ return !(__x < __y); }
 
-template <class Arg1, class Arg2, class Result>
-struct binary_function {
-		typedef Arg1 first_argument_type;
-		typedef Arg2 second_argument_type;
-		typedef Result result_type;
-};
+	template <class Arg1, class Arg2, class Result>
+	struct binary_function {
+			typedef Arg1 first_argument_type;
+			typedef Arg2 second_argument_type;
+			typedef Result result_type;
+	};
 
-template <class T> struct less : binary_function <T,T,bool> {
-	bool operator() (const T& x, const T& y) const {
-		return x<y;
-	}
-};
+	template <class T> struct less : binary_function <T,T,bool> {
+		bool operator() (const T& x, const T& y) const {
+			return x<y;
+		}
+	};
 
 }
