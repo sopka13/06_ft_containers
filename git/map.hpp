@@ -6,7 +6,7 @@
 /*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 22:25:26 by eyohn             #+#    #+#             */
-/*   Updated: 2022/01/04 17:28:14 by eyohn            ###   ########.fr       */
+/*   Updated: 2022/01/04 18:00:41 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ namespace ft {
 	public:
 		typedef Allocator							allocator_type;
 		typedef Compare								key_compare;
+		typedef t_treeElem<const Key, T>			value_type;
 
 		class const_iterator;
 		class const_reverse_iterator;
@@ -1557,35 +1558,53 @@ namespace ft {
 		const_reverse_iterator			rend() const{
 			return const_reverse_iterator(_rnn_node, this);
 		}
+	
+		template <class _Key, class _T, class _Compare, class _Allocator>
+		friend bool operator==( map<_Key, _T, _Compare, _Allocator>& lhs, map<_Key, _T, _Compare, _Allocator>& rhs );
+
+		template <class _Key, class _T, class _Compare, class _Allocator>
+		friend bool operator!=( map<_Key, _T, _Compare, _Allocator>& lhs, map<_Key, _T, _Compare, _Allocator>& rhs );
+
+		template <class _Key, class _T, class _Compare, class _Allocator>
+		friend bool operator<( map<_Key, _T, _Compare, _Allocator>& lhs, map<_Key, _T, _Compare, _Allocator>& rhs );
+
+		template <class _Key, class _T, class _Compare, class _Allocator>
+		friend bool operator<=( map<_Key, _T, _Compare, _Allocator>& lhs, map<_Key, _T, _Compare, _Allocator>& rhs );
+
+		template <class _Key, class _T, class _Compare, class _Allocator>
+		friend bool operator>( map<_Key, _T, _Compare, _Allocator>& lhs, map<_Key, _T, _Compare, _Allocator>& rhs );
+
+		template <class _Key, class _T, class _Compare, class _Allocator>
+		friend bool operator>=( map<_Key, _T, _Compare, _Allocator>& lhs, map<_Key, _T, _Compare, _Allocator>& rhs );
 	};
 
 	template <class Key, class T, class Compare, class Allocator>
 	bool operator==( map<Key, T, Compare, Allocator>& lhs, map<Key, T, Compare, Allocator>& rhs ){
-		return (lhs == rhs);
+		return (lhs._tree == rhs._tree);
 	}
 
 	template <class Key, class T, class Compare, class Allocator>
 	bool operator!=( map<Key, T, Compare, Allocator>& lhs, map<Key, T, Compare, Allocator>& rhs ){
-		return (lhs != rhs);
+		return (lhs._tree != rhs._tree);
 	}
 	
 	template <class Key, class T, class Compare, class Allocator>
 	bool operator<( map<Key, T, Compare, Allocator>& lhs, map<Key, T, Compare, Allocator>& rhs ){
-		return (lhs < rhs);
+		return (lhs._tree < rhs._tree);
 	}
 
 	template <class Key, class T, class Compare, class Allocator>
 	bool operator<=( map<Key, T, Compare, Allocator>& lhs, map<Key, T, Compare, Allocator>& rhs ){
-		return (lhs <= rhs);
+		return (lhs._tree <= rhs._tree);
 	}
 
 	template <class Key, class T, class Compare, class Allocator>
 	bool operator>( map<Key, T, Compare, Allocator>& lhs, map<Key, T, Compare, Allocator>& rhs ){
-		return (lhs > rhs);
+		return (lhs._tree > rhs._tree);
 	}
 	
 	template <class Key, class T, class Compare, class Allocator>
 	bool operator>=( map<Key, T, Compare, Allocator>& lhs, map<Key, T, Compare, Allocator>& rhs ){
-		return (lhs >= rhs);
+		return (lhs._tree >= rhs._tree);
 	}
 }
