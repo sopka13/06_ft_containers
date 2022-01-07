@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eyohn <eyohn@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 21:48:39 by eyohn             #+#    #+#             */
-/*   Updated: 2022/01/05 18:24:21 by eyohn            ###   ########.fr       */
+/*   Updated: 2022/01/07 12:01:16 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@
 #include <string>
 #include <deque>
 
-#if 1 //CREATE A REAL STL EXAMPLE
+#if 0 //CREATE A REAL STL EXAMPLE
 	#include <map>
 	#include <stack>
 	#include <vector>
@@ -593,24 +593,31 @@ int main(int argc, char** argv) {
 	const int seed = atoi(argv[1]);
 	srand(seed);
 
+	std::cout << "step 1 ok" << std::endl;
+
 	ft::vector<std::string> vector_str;
 	ft::vector<int> vector_int;
 	ft::stack<int> stack_int;
 	ft::vector<Buffer> vector_buffer;
-	// ft::stack<Buffer, std::deque<int> > stack_deq_buffer;
+	ft::stack<Buffer, std::deque<int> > stack_deq_buffer;
 	ft::map<int, int> map_int;
 
-	for (int i = 0; i < COUNT; i++)
+	for (int i = 0; i < 9/*COUNT*/; i++)
 	{
 		vector_buffer.push_back(Buffer());
+		std::cout << "i = "<< i << "; COUNT = " << COUNT << std::endl;
 	}
 
-	for (int i = 0; i < COUNT; i++)
-	{
-		const int idx = rand() % COUNT;
-		vector_buffer[idx].idx = 5;
-	}
+	std::cout << "step 2 ok" << std::endl;
+
+	// for (int i = 0; i < COUNT; i++)
+	// {
+	// 	const int idx = rand() % COUNT;
+	// 	vector_buffer[idx].idx = 5;
+	// }
 	ft::vector<Buffer>().swap(vector_buffer);
+
+	std::cout << "step 3 ok" << std::endl;
 
 	try
 	{
@@ -626,10 +633,15 @@ int main(int argc, char** argv) {
 		//NORMAL ! :P
 	}
 	
+	std::cout << "step 4 ok" << std::endl;
+
 	for (int i = 0; i < COUNT; ++i)
 	{
 		map_int.insert(ft::make_pair(rand(), rand()));
+		std::cout << "i = "<< i << "; COUNT = " << COUNT << std::endl;
 	}
+
+	std::cout << "step 5 ok" << std::endl;
 
 	int sum = 0;
 	for (int i = 0; i < 10000; i++)
@@ -639,6 +651,8 @@ int main(int argc, char** argv) {
 	}
 	std::cout << "should be constant with the same seed: " << sum << std::endl;
 
+	std::cout << "step 6 ok" << std::endl;
+
 	{
 		ft::map<int, int> copy = map_int;
 	}
@@ -646,7 +660,8 @@ int main(int argc, char** argv) {
 	for (char letter = 'a'; letter <= 'z'; letter++)
 		iterable_stack.push(letter);
 
-	// MutantStack<char>::iterator it = iterable_stack.begin();
+	std::cout << "step 7 ok" << std::endl;
+
 	for (MutantStack<char>::iterator it = iterable_stack.begin(); it != iterable_stack.end(); it++)
 	{
 		std::cout << *it;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eyohn <eyohn@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 22:25:26 by eyohn             #+#    #+#             */
-/*   Updated: 2022/01/05 17:56:03 by eyohn            ###   ########.fr       */
+/*   Updated: 2022/01/07 13:51:28 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -983,9 +983,10 @@ namespace ft {
 				temp = p->_left;
 				if (temp->_k < 0){
 					temp->_parent = p->_parent;
-					temp->_right->_parent = p;
-					temp->_right = p;
+					if (temp->_right)
+						temp->_right->_parent = p;
 					p->_left = temp->_right;
+					temp->_right = p;
 					if (p->_parent && p->_parent->_left == p)
 						p->_parent->_left = temp;
 					else if (p->_parent)
@@ -1113,8 +1114,12 @@ namespace ft {
 		T&								operator[]( const Key& key ){
 			t_treeElem<const Key, T>*	ret = search(key);
 			if (!ret){
-				pair<Key, T>	in(key);
-				return (insert(in).first)->second;
+				pair<Key, T>			in(key);
+				pair<iterator, bool>	tmp = insert(in);
+				T*						ret = &tmp.first->second;
+				std::cout << "T = " << *ret << std::endl;
+				return *ret;
+				// return (insert(in).first)->second;
 			}
 			return ret->_kv.second;
 		}
