@@ -6,7 +6,7 @@
 /*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 21:48:39 by eyohn             #+#    #+#             */
-/*   Updated: 2022/01/07 12:01:16 by eyohn            ###   ########.fr       */
+/*   Updated: 2022/01/08 20:24:08 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@
 #include <string>
 #include <deque>
 
-#if 0 //CREATE A REAL STL EXAMPLE
+#if 1 //CREATE A REAL STL EXAMPLE
 	#include <map>
 	#include <stack>
 	#include <vector>
@@ -602,7 +602,7 @@ int main(int argc, char** argv) {
 	ft::stack<Buffer, std::deque<int> > stack_deq_buffer;
 	ft::map<int, int> map_int;
 
-	for (int i = 0; i < 9/*COUNT*/; i++)
+	for (int i = 0; i < COUNT; i++)
 	{
 		vector_buffer.push_back(Buffer());
 		std::cout << "i = "<< i << "; COUNT = " << COUNT << std::endl;
@@ -610,11 +610,11 @@ int main(int argc, char** argv) {
 
 	std::cout << "step 2 ok" << std::endl;
 
-	// for (int i = 0; i < COUNT; i++)
-	// {
-	// 	const int idx = rand() % COUNT;
-	// 	vector_buffer[idx].idx = 5;
-	// }
+	for (int i = 0; i < COUNT; i++)
+	{
+		const int idx = rand() % COUNT;
+		vector_buffer[idx].idx = 5;
+	}
 	ft::vector<Buffer>().swap(vector_buffer);
 
 	std::cout << "step 3 ok" << std::endl;
@@ -635,10 +635,17 @@ int main(int argc, char** argv) {
 	
 	std::cout << "step 4 ok" << std::endl;
 
+	clock_t start, end;
+	start = clock();
+
 	for (int i = 0; i < COUNT; ++i)
 	{
 		map_int.insert(ft::make_pair(rand(), rand()));
-		std::cout << "i = "<< i << "; COUNT = " << COUNT << std::endl;
+		if (!(i % 10000)){
+			end = clock();
+			std::cout << "i = "<< i << "; COUNT = " << COUNT << std::endl;
+			printf("%.4f\n", ((double) end - start) / ((double) CLOCKS_PER_SEC));
+		}
 	}
 
 	std::cout << "step 5 ok" << std::endl;
@@ -657,8 +664,10 @@ int main(int argc, char** argv) {
 		ft::map<int, int> copy = map_int;
 	}
 	MutantStack<char> iterable_stack;
-	for (char letter = 'a'; letter <= 'z'; letter++)
+	for (char letter = 'a'; letter <= 'z'; letter++){
 		iterable_stack.push(letter);
+		std::cout << " Letter = " << letter << std::endl;
+	}
 
 	std::cout << "step 7 ok" << std::endl;
 

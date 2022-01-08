@@ -6,7 +6,7 @@
 /*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 22:25:26 by eyohn             #+#    #+#             */
-/*   Updated: 2022/01/07 13:51:28 by eyohn            ###   ########.fr       */
+/*   Updated: 2022/01/08 20:15:13 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <unistd.h>
 #include <math.h>
 #include "source.hpp"
+#include "stack.hpp"
 
 namespace ft {
 	template<typename T1, typename T2>
@@ -58,6 +59,7 @@ namespace ft {
 		t_treeElem<const Key, T>*	_nn_node;
 		t_treeElem<const Key, T>*	_rn_node;
 		t_treeElem<const Key, T>*	_rnn_node;
+		int							_copy_flag;
 
 	public:
 		typedef Allocator							allocator_type;
@@ -67,6 +69,66 @@ namespace ft {
 		class const_iterator;
 		class const_reverse_iterator;
 
+	private:
+		class fast_iterator {
+			const t_treeElem<const Key, T>*				_pointer;
+			const t_treeElem<const Key, T>*				_last;
+			const ft::map<Key, T, Compare, Allocator>*	_map_pointer;
+
+		public:
+			fast_iterator():
+				_pointer(NULL),
+				_map_pointer(NULL)
+			{}
+			fast_iterator(t_treeElem<const Key, T>* pointer, const ft::map<Key, T, Compare, Allocator>*	map_pointer):
+				_pointer(pointer),
+				_map_pointer(map_pointer)
+			{}
+			~fast_iterator() {};
+
+			typedef typename ft::map<Key, T>::fast_iterator&	iterator_type;
+
+			const t_treeElem<const Key, T>*	get_p() {
+				return (_pointer);
+			}
+			const pair<const Key, T>*		operator->() {
+				return (&_pointer->_kv);
+			}
+			iterator_type					operator++(int) {
+				_last = _pointer;
+				while (1){
+					if (_pointer->_left &&
+						_last != _pointer->_left &&
+						_last != _pointer->_right){
+							_pointer = _pointer->_left;
+							return *this;
+					} else if (_pointer->_right &&
+						_last != _pointer->_right) {
+							_pointer = _pointer->_right;
+							return *this;
+					} else if (_pointer->_parent &&
+						_pointer->_parent->_left == _pointer) {
+							_pointer = _pointer->_parent;
+							continue ;
+					} else if (_pointer->_parent &&
+						_pointer->_parent->_right == _pointer) {
+							if (_pointer != _last)
+								_last = _pointer;
+							_pointer = _pointer->_parent;
+							continue ;
+					} else {
+						_pointer = _map_pointer->_nn_node;
+						return *this;
+					}
+				}
+
+			}
+			bool							operator!=(iterator_type it) {
+				return this->_pointer != it.get_p();
+			}
+		};
+
+	public:
 		class iterator {
 			t_treeElem<const Key, T>*						_pointer;
 			ft::map<Key, T, Compare, Allocator>*	_map_pointer;
@@ -241,6 +303,10 @@ namespace ft {
 			operator const_iterator(){
 				return const_iterator(_pointer, _map_pointer);
 			}
+		// private:
+		// 	iterator_type				operator+++(int) {
+				
+		// 	}
 		};
 		class const_iterator {
 			const t_treeElem<const Key, T>*				_pointer;
@@ -792,7 +858,8 @@ namespace ft {
 			_n_node(NULL),
 			_nn_node(NULL),
 			_rn_node(NULL),
-			_rnn_node(NULL)
+			_rnn_node(NULL),
+			_copy_flag(0)
 		{
 			_n_node = _al.allocate(1);
 			_al.construct(_n_node, search_max(_tree));
@@ -813,7 +880,8 @@ namespace ft {
 				_tree(NULL),
 				_compare(comp),
 				_al(alloc),
-				_size(0)
+				_size(0),
+				_copy_flag(0)
 			{
 				_n_node = _al.allocate(1);
 				_al.construct(_n_node, search_max(_tree));
@@ -837,8 +905,11 @@ namespace ft {
 			_tree(NULL),
 			_compare(x._compare),
 			_al(x._al),
-			_size(0)
+			_size(0),
+			_copy_flag(0)
 		{
+			clear();
+
 			_n_node = _al.allocate(1);
 			_al.construct(_n_node, search_max(_tree));
 
@@ -850,15 +921,20 @@ namespace ft {
 
 			_rnn_node = _al.allocate(1);
 			_al.construct(_rnn_node);
+			
+			fast_iterator	begin = x.fast_begin();
+			fast_iterator	end = x.fast_end();
 
-			const_iterator	begin = x.begin();
-			const_iterator	end = x.end();
+			_copy_flag = 1;
+			insert(begin, end);
+			_copy_flag = 0;
 
-			while (begin != end && x.size() != 0){
-				pair<Key, T> f(begin->first, begin->second);
-				insert(f);
-				begin++;
-			}
+			// while (begin != end && x.size() != 0){
+			// 	// pair<Key, T> f(begin->first, begin->second);
+			// 	insert((begin.get_p())->_kv);
+			// 	// std::cout << " first  = " << begin->first << std::endl;
+			// 	begin++;
+			// }
 		}
 		~map(){
 			//	1. if left == null
@@ -915,6 +991,7 @@ namespace ft {
 			}
 		}
 		map& operator=( const map& other ){
+			// std::cout << "start" << std::endl;
 			if (&other != this){
 				clear();
 				_compare = other.key_comp();
@@ -924,6 +1001,7 @@ namespace ft {
 				while (begin != end && other.size() != 0){
 					pair<Key, T> f(begin->first, begin->second);
 					insert(f);
+					// std::cout << " first  = " << begin->first << std::endl;
 					begin++;
 				}
 				updateNullNodes();
@@ -1074,18 +1152,27 @@ namespace ft {
 				if (p->_left) {
 					p = p->_left;
 					continue ;
-				} else
+				} else {
 					break ;
+				}
 			}
 			return p;
+		}
+		int								depth(t_treeElem<const Key, T>* p) const {
+			if (p == NULL)
+				return 0;
+			int ret = ft::max(((p->_left) ? 1 + depth(p->_left) : 0),
+						((p->_right) ? 1 + depth(p->_right) : 0));
+			return ret;
 		}
 		void							rewrite_k(t_treeElem<const Key, T>* p) {
 			while (1) {
 				if (p == NULL)
 					break ;
-				p->_k = ((p->_right != NULL) ? abs(p->_right->_k) + 1 : 0) -
-						((p->_left != NULL) ? abs(p->_left->_k) + 1 : 0);
-				if (abs(p->_k) > 1){
+				p->_k = ((p->_right) ? depth(p->_right) + 1 : 0) - ((p->_left) ? depth(p->_left) + 1 : 0);
+				// p->_k = ((p->_right != NULL) ? /*abs(p->_right->_k) + */((p->_right->_left || p->_right->_right) ? 2 : 1) : 0) -
+				// 		((p->_left != NULL) ? /*abs(p->_left->_k) + */((p->_left->_left || p->_left->_right) ? 2 : 1) : 0);
+				if (abs(p->_k) > 1 && !_copy_flag){
 					balance(p);
 					continue ;
 				} else
@@ -1116,8 +1203,8 @@ namespace ft {
 			if (!ret){
 				pair<Key, T>			in(key);
 				pair<iterator, bool>	tmp = insert(in);
-				T*						ret = &tmp.first->second;
-				std::cout << "T = " << *ret << std::endl;
+				T*						ret = &(tmp.first->second);
+				// std::cout << "T = " << *ret << std::endl;
 				return *ret;
 				// return (insert(in).first)->second;
 			}
@@ -1139,9 +1226,9 @@ namespace ft {
 				_al.construct(_tree, value);			// construct element
 				rewrite_k(_tree);
 				_size++;								// ++ size tree
+				updateNullNodes();
 				iterator_type it(_tree, this);
 				pair<iterator_type, bool> ret(it, true);
-				updateNullNodes();
 				return ret;
 			} else {
 				// If tree is non free
@@ -1175,12 +1262,13 @@ namespace ft {
 							_al.construct((it.get_p())->_left, value, it.get_p());	// construct element
 							rewrite_k((it.get_p())->_left);
 							_size++;										// ++ size tree
-							iterator_type it2((it.get_p())->_left, this);
-							pair<iterator_type, bool> ret(it2, true);
 							updateNullNodes();
-							return ret;
+							return ft::make_pair(iterator(search(value.first), this), true);
+							// iterator_type it2((it.get_p())->_left, this);
+							// pair<iterator_type, bool> ret(it2, true);
+							// return ret;
 						}
-					} else {
+					} else {//if (_compare(it->first, value.first)) {
 						if ((it.get_p())->_right != NULL){
 							it = (it.get_p())->_right;
 							continue ;
@@ -1189,12 +1277,16 @@ namespace ft {
 							_al.construct((it.get_p())->_right, value, it.get_p());	// construct element
 							rewrite_k((it.get_p())->_right);
 							_size++;										// ++ size tree
-							iterator_type it2((it.get_p())->_right, this);
-							pair<iterator_type, bool> ret(it2, true);
 							updateNullNodes();
-							return ret;
+							return ft::make_pair(iterator(search(value.first), this), true);
+							// iterator_type it2((it.get_p())->_right, this);
+							// pair<iterator_type, bool> ret(it2, true);
+							// return ret;
 						}
-					}
+					} //else {
+					// 	pair<iterator_type, bool> ret(it, false);
+					// 	return ret;
+					// }
 				}
 			}
 		}
@@ -1243,9 +1335,17 @@ namespace ft {
 		}
 		template< class InputIt >
 		void							insert( InputIt first, InputIt last ){
+			ft::vector<pair<const Key, T> > tmp;
 			while (first != last){
-				insert(*first);
+				tmp.push_back((first.get_p())->_kv);
+				// insert((first.get_p())->_kv);
+				std::cout << "Size = " << first->first << std::endl;
 				first++;
+			}
+			for (size_t i = 0; i < tmp.size(); ++i){
+				insert(tmp.at(i));
+				// tmp.pop();
+				std::cout << "Size 2 = " << _size << std::endl;
 			}
 		}
 		void							erase( iterator position ){
@@ -1436,12 +1536,15 @@ namespace ft {
 			_rnn_node = temp_1;
 		}
 		void							clear(){
+			if (_size == 0)
+				return ;
 			iterator		begin = this->begin();
 			iterator		end = this->end();
 			while (begin != end && _size != 0){
 				erase(begin);
 				begin++;
 			}
+			_tree = NULL;
 		}
 		// void							less() {
 		// 	std::cout << _compare(_tree->_key, _tree->_value) << std::endl;
@@ -1538,6 +1641,15 @@ namespace ft {
 			return _al;
 		}
 
+	private:
+		fast_iterator					fast_begin() const{
+			return fast_iterator(_tree, this);
+		}
+		fast_iterator					fast_end() const{
+			return fast_iterator(_nn_node, this);
+		}
+
+	public:
 		// Iterators:
 		iterator						begin(){
 			return iterator(search_min(_tree), this);
