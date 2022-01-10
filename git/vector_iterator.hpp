@@ -6,7 +6,7 @@
 /*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 17:47:53 by eyohn             #+#    #+#             */
-/*   Updated: 2022/01/07 10:52:51 by eyohn            ###   ########.fr       */
+/*   Updated: 2022/01/10 22:49:53 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ namespace ft{
 		// operator=(iterator& other) : _ptr(other._ptr) { return *this; }
 		~iterator(){}
 
+		T*				operator->(){
+			return _ptr;
+		}
 		iterator&		operator=(const iterator& other) {
 			this->_ptr = other._ptr;
 			return *this;
@@ -112,7 +115,7 @@ namespace ft{
 	public:
 		const_iterator(): _ptr(NULL){}
 		const_iterator(T* pointer) : _ptr(pointer){}
-		const_iterator(const_iterator& other) : _ptr(other._ptr){}
+		const_iterator(const const_iterator& other) : _ptr(other._ptr){}
 		~const_iterator(){}
 
 		const_iterator&		operator=(const const_iterator& other) {
@@ -137,7 +140,7 @@ namespace ft{
 			operator--();
 			return (tmp);
 		}
-		const_iterator		operator*() {
+		const T&			operator*() {
 			return *_ptr;
 		}
 		const_iterator		operator[](int n) {
@@ -203,7 +206,7 @@ namespace ft{
 	public:
 		reverse_iterator(): _ptr(NULL){}
 		reverse_iterator(T* pointer) : _ptr(pointer){}
-		reverse_iterator(reverse_iterator& other) : _ptr(other._ptr){}
+		reverse_iterator(const reverse_iterator& other) : _ptr(other._ptr){}
 		~reverse_iterator(){}
 
 		reverse_iterator&	operator=(const reverse_iterator& other) {
@@ -211,7 +214,7 @@ namespace ft{
 			return *this;
 		}
 		reverse_iterator&	operator++() {
-			_ptr++;
+			_ptr--;
 			return (*this);
 		}
 		reverse_iterator	operator++(int) {
@@ -220,7 +223,7 @@ namespace ft{
 			return (tmp);
 		}
 		reverse_iterator&	operator--() {
-			_ptr--;
+			_ptr++;
 			return (*this);
 		}
 		reverse_iterator	operator--(int) {
@@ -228,7 +231,7 @@ namespace ft{
 			operator--();
 			return (tmp);
 		}
-		reverse_iterator	operator*() {
+		T&					operator*() {
 			return *_ptr;
 		}
 		reverse_iterator	operator[](int n) {
@@ -294,7 +297,7 @@ namespace ft{
 	public:
 		const_reverse_iterator(): _ptr(NULL){}
 		const_reverse_iterator(T* pointer) : _ptr(pointer){}
-		const_reverse_iterator(const_reverse_iterator& other) : _ptr(other._ptr){}
+		const_reverse_iterator(const const_reverse_iterator& other) : _ptr(other._ptr){}
 		~const_reverse_iterator(){}
 
 		const_reverse_iterator&		operator=(const const_reverse_iterator& other) {
@@ -319,7 +322,7 @@ namespace ft{
 			operator--();
 			return (tmp);
 		}
-		const_reverse_iterator		operator*() {
+		const T&					operator*() {
 			return *_ptr;
 		}
 		const_reverse_iterator		operator[](int n) {

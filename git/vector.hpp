@@ -6,7 +6,7 @@
 /*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 21:03:47 by eyohn             #+#    #+#             */
-/*   Updated: 2022/01/07 11:08:05 by eyohn            ###   ########.fr       */
+/*   Updated: 2022/01/10 22:56:46 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ namespace ft {
 				_alloc.construct(_container + i, value);
 		}
 		template< class InputIt >
-		vector( InputIt first, InputIt last, const Allocator& alloc = Allocator() ):
+		vector( InputIt first, InputIt last, const Allocator& alloc = Allocator()):
 			_container(NULL),
 			_size(0),
 			_alloc(alloc),
@@ -116,7 +116,11 @@ namespace ft {
 			return (_size);
 		}
 		size_t					max_size() const{
-			return (_alloc.max_alloc());
+			long a = sysconf(_SC_PHYS_PAGES);
+			long b = sysconf(_SC_PAGESIZE);
+			long c = a * b;
+			return static_cast<size_t>(c / sizeof(T));
+			// return (_alloc.max_alloc());
 		}
 		void					reserve( size_t size ){
 			if (size <= _capacity)
@@ -199,11 +203,11 @@ namespace ft {
 				push_back(value);
 		}
 		template< class InputIt >
-		void					assign( InputIt first, InputIt last ){
+		void					assign( InputIt first, InputIt last){
 			this->clear();
 			while (first != last) {
 				push_back(*first);
-				++first;
+				first++;
 			}
 		}
 		void					push_back( const T& value ){
@@ -228,15 +232,13 @@ namespace ft {
 		iterator				insert( iterator pos, const T& value ){
 			int	i = 0;
 			for (iterator it = begin(); it != pos; it++, i++) {}
-			if (_size == _capacity)
-			{
+			if (_size == _capacity) {
 				reserve(_capacity ? _capacity * 2 : 1);
 				pos = _container + i;
 			}
-			for (iterator it = this->end(); it != pos; it--)
-			{
-				_alloc.destroy(it._ptr);
-				_alloc.construct(it._ptr, *(it - 1));
+			for (iterator it = this->end(); it != pos; it--) {
+				_alloc.destroy(it.operator->());
+				_alloc.construct(it.operator->(), *(it - 1));
 			}
 			*pos = value;
 			_size++;
@@ -277,7 +279,8 @@ namespace ft {
 		}
 		iterator				erase( iterator pos ){
 			vector temp(pos + 1, end());
-			while (pos != end()){
+			iterator end = this->end();
+			while (pos != end){
 				_alloc.destroy(_container + _size - 1);
 				_size--;
 				pos++;
@@ -314,7 +317,7 @@ namespace ft {
 			while (_size)
 				pop_back();
 		}
-		void					resize( size_t n, T value ){
+		void					resize( size_t n, T value = T()){
 			if (n > max_size())
 				return ;
 			if (n <= _size){

@@ -6,7 +6,7 @@
 /*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 22:25:26 by eyohn             #+#    #+#             */
-/*   Updated: 2022/01/08 20:15:13 by eyohn            ###   ########.fr       */
+/*   Updated: 2022/01/10 22:03:48 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,15 @@ namespace ft {
 			_k(0)
 		{}
 		t_treeElem(t_treeElem* parent): // for _n_node and _rn_node
+			_left(NULL),
+			_right(NULL),
 			_parent(parent),
 			_k(-1)
 		{}
 		t_treeElem():					// for _nn_node and _rnn_node
+			_left(NULL),
+			_right(NULL),
+			_parent(NULL),
 			_k(-1)
 		{}
 		~t_treeElem(){}
@@ -95,36 +100,44 @@ namespace ft {
 				return (&_pointer->_kv);
 			}
 			iterator_type					operator++(int) {
+				// std::cout << "start P = " << _pointer->_kv.first << std::endl;
 				_last = _pointer;
 				while (1){
+					// std::cout << "iter P = " << _pointer->_kv.first << "; last = " << _last->_kv.first << std::endl;
 					if (_pointer->_left &&
 						_last != _pointer->_left &&
 						_last != _pointer->_right){
+							// std::cout << "left 1 P = " << _pointer->_left->_kv.first << std::endl;
 							_pointer = _pointer->_left;
+							// std::cout << "end 1 P = " << _pointer->_kv.first << std::endl;
 							return *this;
 					} else if (_pointer->_right &&
 						_last != _pointer->_right) {
 							_pointer = _pointer->_right;
+							// std::cout << "end 2 P = " << _pointer->_kv.first << std::endl;
 							return *this;
 					} else if (_pointer->_parent &&
 						_pointer->_parent->_left == _pointer) {
+							if (_pointer != _last)// && _last == _pointer->_right)
+								_last = _pointer;
 							_pointer = _pointer->_parent;
 							continue ;
 					} else if (_pointer->_parent &&
 						_pointer->_parent->_right == _pointer) {
-							if (_pointer != _last)
+							if (_pointer != _last)// && _last == _pointer->_right)
 								_last = _pointer;
 							_pointer = _pointer->_parent;
 							continue ;
 					} else {
 						_pointer = _map_pointer->_nn_node;
+						// std::cout << "end P = " << _pointer->_kv.first << std::endl;
 						return *this;
 					}
 				}
 
 			}
 			bool							operator!=(iterator_type it) {
-				return this->_pointer != it.get_p();
+				return this->_pointer != it._pointer;
 			}
 		};
 
@@ -167,6 +180,8 @@ namespace ft {
 				return this->_pointer == it.get_p();
 			}
 			iterator_type				operator++(int) {
+				if (_pointer->_k == -1)
+					return *this;
 				//	1. check current position
 				//	2. if have right
 				//		2.1. rewrite _pointer to _right and return
@@ -225,6 +240,8 @@ namespace ft {
 				return *this;
 			}
 			iterator_type				operator--(int) {
+				if (_pointer->_k == -1)
+					return *this;
 				//	1. check current position
 				//	2. if have _left
 				//		2.1. rewrite _pointer to _left and return
@@ -303,10 +320,6 @@ namespace ft {
 			operator const_iterator(){
 				return const_iterator(_pointer, _map_pointer);
 			}
-		// private:
-		// 	iterator_type				operator+++(int) {
-				
-		// 	}
 		};
 		class const_iterator {
 			const t_treeElem<const Key, T>*				_pointer;
@@ -1057,9 +1070,11 @@ namespace ft {
 			//			2.3.1. start right rotate
 
 			t_treeElem<const Key, T>*		temp = NULL;
-			if (p->_k < 0){
+			// if (p->_k < 0){
+			if ((((p->_right) ? p->_right->_k + 1 : 0) - ((p->_left) ? p->_left->_k + 1 : 0)) < 0){
 				temp = p->_left;
-				if (temp->_k < 0){
+				// if (temp->_k < 0){
+				if ((((temp->_right) ? temp->_right->_k + 1 : 0) - ((temp->_left) ? temp->_left->_k + 1 : 0)) < 0){
 					temp->_parent = p->_parent;
 					if (temp->_right)
 						temp->_right->_parent = p;
@@ -1096,7 +1111,8 @@ namespace ft {
 				}
 			} else {
 				temp = p->_right;
-				if (temp->_k > 0){
+				// if (temp->_k > 0){
+				if ((((temp->_right) ? temp->_right->_k + 1 : 0) - ((temp->_left) ? temp->_left->_k + 1 : 0)) > 0){
 					if(p->_parent && p->_parent->_left == p)
 						p->_parent->_left = temp;
 					else if (p->_parent)
@@ -1111,6 +1127,10 @@ namespace ft {
 					temp->_left = p;
 				} else {
 					t_treeElem<const Key, T>*	temp_1 = temp->_left;
+					if (!temp_1){
+						rewrite_k(temp);
+						return ;
+					}
 					p->_right = temp_1;
 					temp->_parent = temp_1;
 					temp->_left = temp_1->_right;
@@ -1169,10 +1189,11 @@ namespace ft {
 			while (1) {
 				if (p == NULL)
 					break ;
-				p->_k = ((p->_right) ? depth(p->_right) + 1 : 0) - ((p->_left) ? depth(p->_left) + 1 : 0);
-				// p->_k = ((p->_right != NULL) ? /*abs(p->_right->_k) + */((p->_right->_left || p->_right->_right) ? 2 : 1) : 0) -
-				// 		((p->_left != NULL) ? /*abs(p->_left->_k) + */((p->_left->_left || p->_left->_right) ? 2 : 1) : 0);
-				if (abs(p->_k) > 1 && !_copy_flag){
+				// p->_k = ((p->_right) ? depth(p->_right) + 1 : 0) - ((p->_left) ? depth(p->_left) + 1 : 0);
+				p->_k = ft::max(((p->_right) ? p->_right->_k + 1 : 0),
+						((p->_left) ? p->_left->_k + 1 : 0));
+				// if (abs(p->_k) > 1 && !_copy_flag){
+				if (abs(((p->_right) ? p->_right->_k + 1 : 0) - ((p->_left) ? p->_left->_k + 1 : 0)) > 1 && !_copy_flag){
 					balance(p);
 					continue ;
 				} else
@@ -1341,6 +1362,8 @@ namespace ft {
 				// insert((first.get_p())->_kv);
 				std::cout << "Size = " << first->first << std::endl;
 				first++;
+				// if (tmp.size() > 12000)
+				// 	break;
 			}
 			for (size_t i = 0; i < tmp.size(); ++i){
 				insert(tmp.at(i));
@@ -1411,38 +1434,53 @@ namespace ft {
 							new_this = search_min((position.get_p())->_right);
 							r++;
 						}
+						left = (position.get_p())->_left;
+						right = (position.get_p())->_right;
+						parent = (position.get_p())->_parent;
 						if (new_this->_left || new_this->_right){
 							if (l){
-								new_this->_parent->_right = new_this->_left;
-								if (new_this->_left)
+								if (new_this->_parent->_left != new_this)
+									new_this->_parent->_right = new_this->_left;
+								if (new_this->_left && new_this->_parent != position.get_p())
 									new_this->_left->_parent = new_this->_parent;
 							} else {
-								new_this->_parent->_left = new_this->_right;
-								if (new_this->_right)
+								if (new_this->_parent->_right != new_this)
+									new_this->_parent->_left = new_this->_right;
+								if (new_this->_right && new_this->_parent != position.get_p())
 									new_this->_right->_parent = new_this->_parent;
 							}
+							temp = (new_this->_left) ? new_this->_left : new_this->_right;
 						} else {
 							if (new_this->_parent->_left == new_this)
 								new_this->_parent->_left = NULL;
 							else
 								new_this->_parent->_right = NULL;
+							temp = new_this;
 						}
-						temp = new_this->_parent;
-						left = (position.get_p())->_left;
-						right = (position.get_p())->_right;
-						parent = (position.get_p())->_parent;
+						// temp = new_this->_parent;
 						new_this->_parent = parent;
+						
 						if (parent && parent->_left == (position.get_p()))
 							parent->_left = new_this;
 						else if (parent && parent->_right == (position.get_p()))
 							parent->_right = new_this;
 						if (!parent)
 							_tree = new_this;
-						new_this->_left = left;
-						if (left)
+
+						if (new_this != left)
+							new_this->_left = left;
+						// else
+						// 	new_this->_left = NULL;
+
+						if (left && left != new_this)
 							left->_parent = new_this;
-						new_this->_right = right;
-						if (right)
+
+						if (new_this != right)
+							new_this->_right = right;
+						// else
+						// 	new_this->_right = NULL;
+						
+						if (right && right != new_this)
 							right->_parent = new_this;
 						rewrite_k(temp);
 						_al.destroy(position.get_p());
@@ -1460,6 +1498,7 @@ namespace ft {
 							_tree = (position.get_p())->_left;
 							_tree->_parent = NULL;
 						}
+						rewrite_k((position.get_p())->_left);
 						_al.destroy(position.get_p());
 						_al.deallocate(position.get_p(), sizeof(t_treeElem<const Key, T>));
 						_size--;
@@ -1475,6 +1514,7 @@ namespace ft {
 							_tree = (position.get_p())->_right;
 							_tree->_parent = NULL;
 						}
+						rewrite_k((position.get_p())->_right);
 						_al.destroy(position.get_p());
 						_al.deallocate(position.get_p(), sizeof(t_treeElem<const Key, T>));
 						_size--;
@@ -1486,7 +1526,7 @@ namespace ft {
 						(position.get_p())->_parent->_left = NULL;
 					else
 						(position.get_p())->_parent->_right = NULL;
-					rewrite_k(position.get_p());
+					rewrite_k(position.get_p()->_parent);
 					_al.destroy(position.get_p());
 					_al.deallocate(position.get_p(), sizeof(t_treeElem<const Key, T>));
 					_size--;
@@ -1497,10 +1537,13 @@ namespace ft {
 
 		}
 		void							erase( iterator first, iterator last ){
+			iterator		tmp = first;
 			while (first != last){
+				tmp++;
 				erase(first);
-				first++;
+				first = tmp;
 			}
+			updateNullNodes();
 		}
 		size_t							erase( const Key& key ){
 			t_treeElem<const Key, T>* pp = search(key);

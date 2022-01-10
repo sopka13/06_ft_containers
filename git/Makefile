@@ -6,7 +6,7 @@
 #    By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/28 11:57:26 by eyohn             #+#    #+#              #
-#    Updated: 2022/01/07 15:11:02 by eyohn            ###   ########.fr        #
+#    Updated: 2022/01/09 16:51:35 by eyohn            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ OBJS			= ${SRCS:.cpp=.o}
 
 CC				= clang++
 
-FLAGS			= -Wall -Wextra -Werror -g #-fstack-protector -std=c++98
+FLAGS			= -Wall -Wextra -Werror -g -fstack-protector -std=c++98
 
 RM				= rm -rf
 
