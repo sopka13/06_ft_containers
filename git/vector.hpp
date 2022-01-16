@@ -6,7 +6,7 @@
 /*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 21:03:47 by eyohn             #+#    #+#             */
-/*   Updated: 2022/01/10 22:56:46 by eyohn            ###   ########.fr       */
+/*   Updated: 2022/01/16 23:45:13 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 
 #include <iostream>
 #include "source.hpp"
-#include "vector_iterator.hpp"
+// #include "vector_iterator.hpp"
 
 namespace ft {
+	
+
 	template <class T, class Allocator = std::allocator<T> >
 	class vector
 	{
@@ -64,12 +66,409 @@ namespace ft {
 			_alloc.deallocate(_container, _size);
 		}
 
-		// typedef size_t								size_type;
-		typedef ft::iterator<T>						iterator;
-		typedef ft::const_iterator<T>				const_iterator;
-		typedef ft::reverse_iterator<T>				reverse_iterator;
-		typedef ft::const_reverse_iterator<T>		const_reverse_iterator;
+		class const_iterator;
+		class const_reverse_iterator;
+		class iterator{
+			T*		_ptr;
 
+		public:
+			iterator(): _ptr(NULL){}
+			iterator(T* pointer) : _ptr(pointer){}
+			iterator(const iterator& other) { _ptr = other._ptr; }
+			~iterator(){}
+
+			T*		get_p() {
+				return _ptr;
+			}
+			T*				operator->(){
+				return _ptr;
+			}
+			iterator&		operator=(const iterator& other) {
+				this->_ptr = other._ptr;
+				return *this;
+			}
+			iterator&		operator++() {
+				_ptr++;
+				return (*this);
+			}
+			iterator		operator++(int) {
+				iterator tmp(_ptr);
+				operator++();
+				return (tmp);
+			}
+			iterator&		operator--() {
+				_ptr--;
+				return (*this);
+			}
+			iterator		operator--(int) {
+				iterator	tmp(_ptr);
+				operator--();
+				return (tmp);
+			}
+			T&				operator*() {
+				return *_ptr;
+			}
+			iterator		operator[](int n) {
+				return _ptr[n];
+			}
+			iterator		operator+(int n) {
+				return iterator(_ptr + n);
+			}
+			iterator&		operator+=(int n) {
+				_ptr += n;
+				return *this;
+			}
+			iterator		operator-(int n) {
+				return iterator(_ptr - n);
+			}
+			iterator&		operator-=(int n) {
+				_ptr -= n;
+				return *this;
+			}
+			operator		const_iterator(){
+				return const_iterator(_ptr);
+			}
+
+			typedef typename ft::vector<T, Allocator>::iterator					iterator_type;
+
+			bool			operator==(iterator_type x) {
+				return (x._ptr == this->_ptr);
+			}
+			bool			operator!=(iterator_type x) {
+				return this->_ptr != x.get_p();
+			}
+			bool			operator<(iterator_type x) {
+				return (x._ptr < this->_ptr);
+			}
+			bool			operator<=(iterator_type x) {
+				return (x._ptr <= this->_ptr);
+			}
+			bool			operator>(iterator_type x) {
+				return (x._ptr > this->_ptr);
+			}
+			bool			operator>=(iterator_type x) {
+				return (x._ptr >= this->_ptr);
+			}
+
+			typedef typename ft::vector<T, Allocator>::const_iterator&				const_iterator_type;
+
+			bool			operator==(const_iterator_type x) {
+				return (x.get_p() == this->_ptr);
+			}
+			bool			operator!=(const_iterator_type x) {
+				return this->_ptr != x.get_p();
+			}
+			bool			operator<(const_iterator_type x) {
+				return (x.get_p() < this->_ptr);
+			}
+			bool			operator<=(const_iterator_type x) {
+				return (x.get_p() <= this->_ptr);
+			}
+			bool			operator>(const_iterator_type x) {
+				return (x.get_p() > this->_ptr);
+			}
+			bool			operator>=(const_iterator_type x) {
+				return (x.get_p() >= this->_ptr);
+			}
+
+		};
+		class const_iterator{
+			const T*		_ptr;
+
+		public:
+			const_iterator(): _ptr(NULL){}
+			const_iterator(T* pointer) : _ptr(pointer){}
+			const_iterator(const const_iterator& other) { _ptr = other._ptr; }
+			~const_iterator(){}
+
+			const T*			get_p() {
+				return _ptr;
+			}
+			const_iterator&		operator=(const const_iterator& other) {
+				this->_ptr = other.get_p();
+				return *this;
+			}
+			const_iterator&		operator++() {
+				_ptr++;
+				return (*this);
+			}
+			const_iterator		operator++(int) {
+				const_iterator tmp(_ptr);
+				operator++();
+				return (tmp);
+			}
+			const_iterator&		operator--() {
+				_ptr--;
+				return (*this);
+			}
+			const_iterator		operator--(int) {
+				const_iterator	tmp(_ptr);
+				operator--();
+				return (tmp);
+			}
+			const T&			operator*() {
+				return *_ptr;
+			}
+			const_iterator		operator[](int n) {
+				return _ptr[n];
+			}
+			const_iterator		operator+(int n) {
+				return const_iterator(_ptr + n);
+			}
+			const_iterator&		operator+=(int n) {
+				_ptr += n;
+				return *this;
+			}
+			const_iterator		operator-(int n) {
+				return const_iterator(_ptr - n);
+			}
+			const_iterator&		operator-=(int n) {
+				_ptr -= n;
+				return *this;
+			}
+			
+			typedef typename ft::vector<T, Allocator>::const_iterator&					iterator_type;
+
+			bool			operator==(iterator_type x) {
+				return (x._ptr == this->_ptr);
+			}
+			bool			operator!=(iterator_type x) {
+				return (x._ptr != this->_ptr);
+			}
+			bool			operator<(iterator_type x) {
+				return (x._ptr < this->_ptr);
+			}
+			bool			operator<=(iterator_type x) {
+				return (x._ptr <= this->_ptr);
+			}
+			bool			operator>(iterator_type x) {
+				return (x._ptr > this->_ptr);
+			}
+			bool			operator>=(iterator_type x) {
+				return (x._ptr >= this->_ptr);
+			}
+		
+			typedef typename ft::vector<T, Allocator>::iterator&				const_iterator_type;
+
+			bool			operator==(const_iterator_type x) {
+				return (x.get_p() == this->_ptr);
+			}
+			bool			operator!=(const_iterator_type x) {
+				return this->_ptr != x.get_p();
+			}
+			bool			operator<(const_iterator_type x) {
+				return (x.get_p() < this->_ptr);
+			}
+			bool			operator<=(const_iterator_type x) {
+				return (x.get_p() <= this->_ptr);
+			}
+			bool			operator>(const_iterator_type x) {
+				return (x.get_p() > this->_ptr);
+			}
+			bool			operator>=(const_iterator_type x) {
+				return (x.get_p() >= this->_ptr);
+			}
+
+		};
+		class reverse_iterator{
+			T*		_ptr;
+
+		public:
+			reverse_iterator(): _ptr(NULL){}
+			reverse_iterator(T* pointer) : _ptr(pointer){}
+			reverse_iterator(const reverse_iterator& other) { _ptr = other._ptr; }
+			~reverse_iterator(){}
+
+			T*			get_p() {
+				return _ptr;
+			}
+			reverse_iterator&	operator=(const reverse_iterator& other) {
+				this->_ptr = other._ptr;
+				return *this;
+			}
+			reverse_iterator&	operator++() {
+				_ptr--;
+				return (*this);
+			}
+			reverse_iterator	operator++(int) {
+				reverse_iterator tmp(_ptr);
+				operator++();
+				return (tmp);
+			}
+			reverse_iterator&	operator--() {
+				_ptr++;
+				return (*this);
+			}
+			reverse_iterator	operator--(int) {
+				reverse_iterator	tmp(_ptr);
+				operator--();
+				return (tmp);
+			}
+			T&					operator*() {
+				return *_ptr;
+			}
+			reverse_iterator	operator[](int n) {
+				return _ptr[n];
+			}
+			reverse_iterator	operator+(int n) {
+				return reverse_iterator(_ptr + n);
+			}
+			reverse_iterator&	operator+=(int n) {
+				_ptr += n;
+				return *this;
+			}
+			reverse_iterator	operator-(int n) {
+				return reverse_iterator(_ptr - n);
+			}
+			reverse_iterator&	operator-=(int n) {
+				_ptr -= n;
+				return *this;
+			}
+			operator			const_reverse_iterator(){
+				return const_reverse_iterator(_ptr);
+			}
+
+			typedef typename ft::vector<T, Allocator>::reverse_iterator&					iterator_type;
+
+			bool			operator==(iterator_type x) {
+				return (x._ptr == this->_ptr);
+			}
+			bool			operator!=(iterator_type x) {
+				return (x._ptr != this->_ptr);
+			}
+			bool			operator<(iterator_type x) {
+				return (x._ptr < this->_ptr);
+			}
+			bool			operator<=(iterator_type x) {
+				return (x._ptr <= this->_ptr);
+			}
+			bool			operator>(iterator_type x) {
+				return (x._ptr > this->_ptr);
+			}
+			bool			operator>=(iterator_type x) {
+				return (x._ptr >= this->_ptr);
+			}
+		
+			typedef typename ft::vector<T, Allocator>::const_reverse_iterator&				const_iterator_type;
+
+			bool			operator==(const_iterator_type x) {
+				return (x.get_p() == this->_ptr);
+			}
+			bool			operator!=(const_iterator_type x) {
+				return (x.get_p() != this->_ptr);
+			}
+			bool			operator<(const_iterator_type x) {
+				return (x.get_p() < this->_ptr);
+			}
+			bool			operator<=(const_iterator_type x) {
+				return (x.get_p() <= this->_ptr);
+			}
+			bool			operator>(const_iterator_type x) {
+				return (x.get_p() > this->_ptr);
+			}
+			bool			operator>=(const_iterator_type x) {
+				return (x.get_p() >= this->_ptr);
+			}
+		
+		};
+		class const_reverse_iterator{
+			const T*		_ptr;
+
+		public:
+			const_reverse_iterator(): _ptr(NULL){}
+			const_reverse_iterator(T* pointer) : _ptr(pointer){}
+			const_reverse_iterator(const const_reverse_iterator& other) { _ptr = other._ptr; }
+			~const_reverse_iterator(){}
+
+			const T*					get_p() {
+				return _ptr;
+			}
+			const_reverse_iterator&		operator=(const const_reverse_iterator& other) {
+				this->_ptr = other._ptr;
+				return *this;
+			}
+			const_reverse_iterator&		operator++() {
+				_ptr++;
+				return (*this);
+			}
+			const_reverse_iterator		operator++(int) {
+				const_reverse_iterator tmp(_ptr);
+				operator++();
+				return (tmp);
+			}
+			const_reverse_iterator&		operator--() {
+				_ptr--;
+				return (*this);
+			}
+			const_reverse_iterator		operator--(int) {
+				const_reverse_iterator	tmp(_ptr);
+				operator--();
+				return (tmp);
+			}
+			const T&					operator*() {
+				return *_ptr;
+			}
+			const_reverse_iterator		operator[](int n) {
+				return _ptr[n];
+			}
+			const_reverse_iterator		operator+(int n) {
+				return const_reverse_iterator(_ptr + n);
+			}
+			const_reverse_iterator&		operator+=(int n) {
+				_ptr += n;
+				return *this;
+			}
+			const_reverse_iterator		operator-(int n) {
+				return const_reverse_iterator(_ptr - n);
+			}
+			const_reverse_iterator&		operator-=(int n) {
+				_ptr -= n;
+				return *this;
+			}
+			
+			typedef typename ft::vector<T, Allocator>::const_reverse_iterator&					iterator_type;
+
+			bool			operator==(iterator_type x) {
+				return (x._ptr == this->_ptr);
+			}
+			bool			operator!=(iterator_type x) {
+				return (x._ptr != this->_ptr);
+			}
+			bool			operator<(iterator_type x) {
+				return (x._ptr < this->_ptr);
+			}
+			bool			operator<=(iterator_type x) {
+				return (x._ptr <= this->_ptr);
+			}
+			bool			operator>(iterator_type x) {
+				return (x._ptr > this->_ptr);
+			}
+			bool			operator>=(iterator_type x) {
+				return (x._ptr >= this->_ptr);
+			}
+		
+			typedef typename ft::vector<T, Allocator>::reverse_iterator&				const_iterator_type;
+
+			bool			operator==(const_iterator_type x) {
+				return (x.get_p() == this->_ptr);
+			}
+			bool			operator!=(const_iterator_type x) {
+				return (x.get_p() != this->_ptr);
+			}
+			bool			operator<(const_iterator_type x) {
+				return (x.get_p() < this->_ptr);
+			}
+			bool			operator<=(const_iterator_type x) {
+				return (x.get_p() <= this->_ptr);
+			}
+			bool			operator>(const_iterator_type x) {
+				return (x.get_p() > this->_ptr);
+			}
+			bool			operator>=(const_iterator_type x) {
+				return (x.get_p() >= this->_ptr);
+			}
+	
+		};
 
 		vector& operator=(const vector& other){
 			if (_container){
@@ -86,16 +485,16 @@ namespace ft {
 		}
 
 		// Iterators:
-		iterator				begin(){
+		iterator				begin() {
 			return iterator(_container);
 		}
-		const_iterator			begin() const{
+		const_iterator			begin() const {
 			return const_iterator(_container);
 		}
 		iterator				end(){
 			return iterator(_container + _size);
 		}
-		const_iterator			end() const{
+		const_iterator			end() const {
 			return const_iterator(_container + _size);
 		}
 		reverse_iterator		rbegin(){
@@ -287,7 +686,8 @@ namespace ft {
 			}
 			iterator ret(_container + _size - 1);
 			iterator it = temp.begin();
-			while (it != temp.end()){
+			iterator end_2 = temp.end();
+			while (it != end_2){
 				push_back(*it);
 				it++;
 			}
@@ -309,9 +709,23 @@ namespace ft {
 			return (ret);
 		}
 		void					swap( vector& other ){
-			vector temp(other);
-			other = *this;
-			*this = temp;
+			T*			t_cont = other._container;
+			size_t		t_size = other._size;
+			Allocator	t_alloc = other._alloc;
+			size_t		t_capa = other._capacity;
+
+			other._container = this->_container;
+			other._size = this->_size;
+			other._alloc = this->_alloc;
+			other._capacity = this->_capacity;
+			
+			this->_container = t_cont;
+			this->_size = t_size;
+			this->_alloc = t_alloc;
+			this->_capacity = t_capa;
+			// ft::vector<T> temp = other;
+			// other = *this;
+			// *this = temp;
 		}
 		void					clear(){
 			while (_size)

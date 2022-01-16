@@ -6,7 +6,7 @@
 /*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 22:25:26 by eyohn             #+#    #+#             */
-/*   Updated: 2022/01/10 22:03:48 by eyohn            ###   ########.fr       */
+/*   Updated: 2022/01/16 21:58:15 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ namespace ft {
 
 	public:
 		class iterator {
-			t_treeElem<const Key, T>*						_pointer;
+			t_treeElem<const Key, T>*				_pointer;
 			ft::map<Key, T, Compare, Allocator>*	_map_pointer;
 
 		public:
@@ -320,6 +320,28 @@ namespace ft {
 			operator const_iterator(){
 				return const_iterator(_pointer, _map_pointer);
 			}
+		
+			typedef typename ft::map<Key, T>::const_iterator&	const_iterator_type;
+
+			bool						operator==(const_iterator_type it) {
+				return this->_pointer == it.get_p();
+			}
+			bool						operator>(const_iterator_type it) {
+				return this->_pointer > it.get_p();
+			}
+			bool						operator>=(const_iterator_type it) {
+				return this->_pointer >= it.get_p();
+			}
+			bool						operator<(const_iterator_type it) {
+				return this->_pointer < it.get_p();
+			}
+			bool						operator<=(const_iterator_type it) {
+				return this->_pointer <= it.get_p();
+			}
+			bool						operator!=(const_iterator_type it) {
+				return this->_pointer != it.get_p();
+			}
+		
 		};
 		class const_iterator {
 			const t_treeElem<const Key, T>*				_pointer;
@@ -495,6 +517,27 @@ namespace ft {
 			}
 			const pair<const Key, T>*		operator->() {
 				return (&_pointer->_kv);
+			}
+		
+			typedef typename ft::map<Key, T>::iterator&		const_iterator_type;
+
+			bool						operator==(const_iterator_type it) {
+				return this->_pointer == it.get_p();
+			}
+			bool						operator>(const_iterator_type it) {
+				return this->_pointer > it.get_p();
+			}
+			bool						operator>=(const_iterator_type it) {
+				return this->_pointer >= it.get_p();
+			}
+			bool						operator<(const_iterator_type it) {
+				return this->_pointer < it.get_p();
+			}
+			bool						operator<=(const_iterator_type it) {
+				return this->_pointer <= it.get_p();
+			}
+			bool						operator!=(const_iterator_type it) {
+				return this->_pointer != it.get_p();
 			}
 		};
 		class reverse_iterator {
@@ -672,6 +715,26 @@ namespace ft {
 				return const_reverse_iterator(_pointer, _map_pointer);
 			}
 			
+			typedef typename ft::map<Key, T>::const_reverse_iterator&	const_iterator_type;
+
+			bool						operator==(const_iterator_type it) {
+				return this->_pointer == it.get_p();
+			}
+			bool						operator>(const_iterator_type it) {
+				return this->_pointer > it.get_p();
+			}
+			bool						operator>=(const_iterator_type it) {
+				return this->_pointer >= it.get_p();
+			}
+			bool						operator<(const_iterator_type it) {
+				return this->_pointer < it.get_p();
+			}
+			bool						operator<=(const_iterator_type it) {
+				return this->_pointer <= it.get_p();
+			}
+			bool						operator!=(const_iterator_type it) {
+				return this->_pointer != it.get_p();
+			}
 		};
 		class const_reverse_iterator {
 			const t_treeElem<const Key, T>*						_pointer;
@@ -845,6 +908,26 @@ namespace ft {
 				return (&_pointer->_kv);
 			}
 			
+			typedef typename ft::map<Key, T>::reverse_iterator&	const_iterator_type;
+
+			bool						operator==(const_iterator_type it) {
+				return this->_pointer == it.get_p();
+			}
+			bool						operator>(const_iterator_type it) {
+				return this->_pointer > it.get_p();
+			}
+			bool						operator>=(const_iterator_type it) {
+				return this->_pointer >= it.get_p();
+			}
+			bool						operator<(const_iterator_type it) {
+				return this->_pointer < it.get_p();
+			}
+			bool						operator<=(const_iterator_type it) {
+				return this->_pointer <= it.get_p();
+			}
+			bool						operator!=(const_iterator_type it) {
+				return this->_pointer != it.get_p();
+			}
 		};
 
 		class value_compare{
@@ -1360,7 +1443,7 @@ namespace ft {
 			while (first != last){
 				tmp.push_back((first.get_p())->_kv);
 				// insert((first.get_p())->_kv);
-				std::cout << "Size = " << first->first << std::endl;
+				// std::cout << "Size = " << first->first << std::endl;
 				first++;
 				// if (tmp.size() > 12000)
 				// 	break;
@@ -1368,7 +1451,7 @@ namespace ft {
 			for (size_t i = 0; i < tmp.size(); ++i){
 				insert(tmp.at(i));
 				// tmp.pop();
-				std::cout << "Size 2 = " << _size << std::endl;
+				// std::cout << "Size 2 = " << _size << std::endl;
 			}
 		}
 		void							erase( iterator position ){

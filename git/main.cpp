@@ -6,7 +6,7 @@
 /*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 21:48:39 by eyohn             #+#    #+#             */
-/*   Updated: 2022/01/10 22:47:16 by eyohn            ###   ########.fr       */
+/*   Updated: 2022/01/16 23:51:55 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,12 @@
 #include <iostream>
 #include <string>
 #include <deque>
+#include <list>
 
 // #if 0 //CREATE A REAL STL EXAMPLE
-// 	#include <map>
-// 	#include <stack>
-	// #include <vector>
+	#include <map>
+	#include <stack>
+	#include <vector>
 // 	namespace ft = std;
 // #else
 // 	#include "map.hpp"
@@ -366,6 +367,10 @@ int		main(void) {
 		std::cout << (int)(it_05 < it_06) << std::endl;
 		std::cout << (int)(it_07 < it_08) << std::endl;
 
+		std::cout << "Compare iterator and const_iterator :" << std::endl;
+		std::cout << (int)(it_01 == it_03) << std::endl;
+		std::cout << (int)(it_07 == it_06) << std::endl;
+
 		// std::cout << (int)(it_01 == it_03) << std::endl;
 		// std::cout << (int)(it_01 == it_05) << std::endl;
 		// std::cout << (int)(it_01 == it_07) << std::endl;
@@ -535,6 +540,8 @@ int		main(void) {
 		std::cout << "\n ### ### ### ### ### Member functions test start ### ### ### ### ### " << std::endl;
 		// constructor
 		ft::stack<int>		st_01;
+		ft::stack<int>		st_02(std::list<int>);
+		ft::stack<int>		st_03(std::deque<int>);
 
 		// empty
 		std::cout << "Empty func st_01 = " << st_01.empty() << std::endl;
@@ -616,7 +623,7 @@ int		main(void) {
 		ft::vector<std::string>		vtr_05;
 		std::cout << "Size vector vtr_05 = " << vtr_05.size() << std::endl;
 		vtr_05 = vtr_04;
-		std::cout << "Size vector afteroperator = vtr_05 = " << vtr_05.size() << std::endl;
+		std::cout << "Size vector after operator = vtr_05 = " << vtr_05.size() << std::endl;
 	}
 	//------Iterators------
 	{
@@ -627,17 +634,37 @@ int		main(void) {
 		
 		ft::vector<int>::iterator	begin = vec_01.begin();
 		ft::vector<int>::iterator	end = vec_01.end();
+		ft::vector<int>::const_iterator	end_2 = vec_01.begin();
 		while (begin != end){
 			std::cout << *begin << std::endl;
 			begin++;
 		}
 
+		// operators:
+		std::cout << "Operator == " << (int)(begin == end) << std::endl;
+		std::cout << "Operator != " << (int)(begin != end) << std::endl;
+		std::cout << "Operator <= " << (int)(begin <= end) << std::endl;
+		std::cout << "Operator < " << (int)(begin < end) << std::endl;
+		std::cout << "Operator >= " << (int)(begin >= end) << std::endl;
+		std::cout << "Operator > " << (int)(begin > end) << std::endl;
+		std::cout << "Compare iterator and const_iterator = " << (int)(end == end_2) << std::endl;
+
 		ft::vector<int>::reverse_iterator	rbeg = vec_01.rbegin();
 		ft::vector<int>::reverse_iterator	rend = vec_01.rend();
+		ft::vector<int>::const_reverse_iterator	rend_2 = vec_01.rbegin();
 		while (rbeg != rend){
 			std::cout << *rbeg << std::endl;
 			rbeg++;
 		}
+
+		// operators:
+		std::cout << "Operator == " << (int)(rbeg == rend) << std::endl;
+		std::cout << "Operator != " << (int)(rbeg != rend) << std::endl;
+		std::cout << "Operator <= " << (int)(rbeg <= rend) << std::endl;
+		std::cout << "Operator < " << (int)(rbeg < rend) << std::endl;
+		std::cout << "Operator >= " << (int)(rbeg >= rend) << std::endl;
+		std::cout << "Operator > " << (int)(rbeg > rend) << std::endl;
+		std::cout << "Compare iterator and const_iterator = " << (int)(rend == rend_2) << std::endl;
 	}
 	//------Capacity------
 	{
@@ -670,7 +697,7 @@ int		main(void) {
 		std::cout << "Empty vector vec_01 = " << vec_01.empty() << std::endl;
 
 		// reserve
-		vec_01.reserve(10);
+		vec_01.reserve(20);
 		std::cout << "Capasity vector adter reserve vec_01 = " << vec_01.capacity() << std::endl;
 	}
 	//------Element access------
@@ -706,7 +733,7 @@ int		main(void) {
 			std::cout << ' ' << vec_01[i];
 
 		// push_back
-		vec_01.push_back(11);
+		vec_01.push_back('Z');
 		std::cout << "Vector contain after push_back operation:" << std::endl;
 		for (size_t i = 0; i < vec_01.size(); i++)
 			std::cout << ' ' << vec_01[i];
@@ -733,11 +760,20 @@ int		main(void) {
 
 		// swap
 		ft::vector<char> vec_02;
-		for (size_t i = 1; i < 10; i++) vec_02.push_back(i);
+		for (size_t i = 1; i < 10; i++) vec_02.push_back('A' + i);
+		ft::vector<char>::iterator	itr = vec_02.begin();
+		itr++;
+		std::cout << "Iteraror before swap = " << *itr << std::endl;
+		// for (size_t i = 0; i < vec_02.size(); i++)
+		// 	std::cout << ' ' << vec_02[i];
 		vec_01.swap(vec_02);
-		std::cout << "Vector contain after erase operation:" << std::endl;
+		std::cout << "Iteraror after swap = " << *itr << std::endl;
+		std::cout << "Vector contain after swap operation:" << std::endl;
 		for (size_t i = 0; i < vec_01.size(); i++)
 			std::cout << ' ' << vec_01[i];
+		// std::cout << "Vector contain after swap operation:" << std::endl;
+		// for (size_t i = 0; i < vec_02.size(); i++)
+		// 	std::cout << ' ' << vec_02[i];
 
 		// clear
 		vec_01.clear();
@@ -783,10 +819,54 @@ int		main(void) {
 	{
 		std::cout << "\n ### ### ### ### ### Template specializations test start ### ### ### ### ### " << std::endl;
 		ft::vector<bool>	vec_01;
-		vec_01.push_back(1);
+		vec_01.push_back(true);
 		
-		std::cout << "Size vector vec_01" << vec_01.size() << std::endl;
+		std::cout << "Size vector vec_01 = " << vec_01.size() << std::endl;
 	}
+	
+	// Speed test map
+	std::map<int, int>	map_01;
+	ft::map<int, int>	map_02;
+
+	std::clock_t start;
+	double duration;
+	start = std::clock();
+
+	for (int i = 0; i < 100000; ++i)
+		map_01.insert(std::make_pair(i, i));
+
+	duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
+	std::cout << "Speed for original map = " << duration << std::endl;
+
+	start = std::clock();
+
+	for (int i = 0; i < 100000; ++i)
+		map_02.insert(ft::make_pair(i, i));
+
+	duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
+	std::cout << "Speed for my map = " << duration << std::endl;
+
+	// Speed test vector
+	std::vector<int>	vec_01;
+	ft::vector<int>		vec_02;
+
+	start = std::clock();
+
+	for (int i = 0; i < 100000; ++i)
+		vec_01.push_back(i);
+
+	duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
+	std::cout << "Speed for original vector = " << duration << std::endl;
+
+	start = std::clock();
+
+	for (int i = 0; i < 100000; ++i)
+		vec_02.push_back(i);
+
+	duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
+	std::cout << "Speed for my vector = " << duration << std::endl;
+
+	// while (1);
 	return 0;
 }
 
