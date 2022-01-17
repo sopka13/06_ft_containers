@@ -6,7 +6,7 @@
 /*   By: eyohn <sopka13@mail.ru>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 21:50:16 by eyohn             #+#    #+#             */
-/*   Updated: 2022/01/09 22:36:10 by eyohn            ###   ########.fr       */
+/*   Updated: 2022/01/17 12:42:53 by eyohn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,47 +17,20 @@
 #pragma once
 
 namespace ft {
-
-	// class iterator{
-		
-	// public:
-
-	// };
-
-	// class iterator_trails{
-
-	// public:
-
-	// };
-
-	// class reverse_iterator{
-
-	// public:
-
-	// };
-
 	class enable_if{
-
 	public:
-
 	};
 
 	class is_integral{
-
 	public:
-
 	};
 
 	class equal{
-
 	public:
-
 	};
 
 	class Lexicographical_compare{
-
 	public:
-
 	};
 
 	template<class T1, class T2>
